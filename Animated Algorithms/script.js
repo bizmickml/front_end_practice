@@ -1,6 +1,3 @@
-if (typeof window !== 'undefined') {
-  // Code that uses document object
-
   /* ---  BUBBLE SORT - takes the converted array as a parameter
           - finds the largest value
           - bumps it up one index postion at a time to the end (or before the next largest value)
@@ -131,29 +128,3 @@ if (typeof window !== 'undefined') {
     return array;
   }
   */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
