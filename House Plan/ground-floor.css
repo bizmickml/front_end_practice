@@ -1,0 +1,129 @@
+/* ---- GROUND LEVEL ------ */
+
+  /* ---- DOORS & WINDOWS ---- */
+
+    #door-A {
+      rotate: 90deg;
+      left: calc(calc(-3 * var(--footScale)) + var(--wallWidth2x6));
+      top: calc(calc(calc(var(--halfHouseWidth) - var(--wallWidth2x6)) / 2 ) - calc(1.5 * var(--footScale)));
+    }
+
+    #door-B {
+      rotate: 90deg;
+      left: calc(calc(-3.1 * var(--footScale)) - var(--wallWidth2x6));
+      top: calc(calc(50% - calc(1.5 * var(--footScale))) + var(--halfWallWidth2x6));
+    }
+
+  /* ---- end DOORS & WINDOWS ----  */
+
+  /* ---- UNDER STAIR CLOSET -----  */
+
+    #under-stair-closet {
+      position: absolute;
+      top: calc(var(--stairHeight) - var(--treadWidth));
+      height: var(--treadWidth);
+      width: var(--treadWidth);
+      background: linear-gradient(rgba(255, 255, 255, 0.95), white);
+    }
+
+    #under-stair-closet-wall {
+      position: absolute;
+      height: var(--treadWidth);
+      rotate: 90deg;
+      left: calc(calc(var(--treadWidth) / 2) - calc(var(--wallWidth2x4) / 2));
+      top: calc(calc(var(--treadWidth) / 2) - calc(var(--wallWidth2x4) / 2));
+    }
+
+    #door-1 {
+      position: absolute;
+      top: calc(100% - var(--wallWidth2x4));
+      left: calc(calc(var(--treadWidth) - (3 * var(--footScale))) / 2);
+    }
+
+  /* ---  end UNDER STAIR CLOSET ---- */
+
+  /* ---  SHOP AREA ----  */
+
+    #shop-area {
+      position: absolute;
+      width: var(--halfHouseWidth);
+      height: var(--innerHouseHeight);
+      background: var(--color1);
+    }
+
+    #shop-main-wall {
+      position: relative;
+      height: var(--innerHouseHeight);
+      left: calc(100% - var(--wallWidth2x4));
+    }
+
+    #door-2 {
+      position: relative;
+      rotate: -90deg;
+      top: calc(calc(var(--innerHouseHeight) /2) - calc(calc(3 * var(--footScale)) / 2))
+    }
+
+  /* ---  end SHOP AREA ----- */
+  
+  /* ---- STORAGE & MECHANICAL AREA ----  */
+
+    #storage-area {
+      position: absolute;
+      background: var(--color2);
+      width: var(--halfHouseWidth);
+      height: calc(var(--innerHouseHeight) / 2);
+      right: 0;
+    }
+
+    #storage-wall {
+      height: 100%;
+    }
+
+    #door-3 {
+      position: absolute;
+      rotate: -90deg;
+      top: calc(100% - calc(3.5 * var(--footScale)));
+    }
+
+    #storage-wall2 {
+      position: absolute;
+      height: calc(var(--halfHouseWidth) - var(--wallWidth2x4));
+      rotate: 90deg;
+      top: calc(calc(calc(var(--innerHouseHeight) / 2) - calc(calc(var(--halfHouseWidth) - var(--wallWidth2x4)) / 2)) - calc(var(--wallWidth2x4) / 2));
+      left: calc(calc(calc(var(--halfHouseWidth) - var(--wallWidth2x4)) / 2) + calc(var(--wallWidth2x4) / 2));
+    }
+
+    .boiler {
+      position: absolute;
+      height: calc(var(--footScale) * 2);
+      width: calc(var(--footScale) * 2);
+      border: 1px solid black;
+      top: 40%;
+      left: var(--footScale);
+    }
+
+    .water-heater {
+      position: absolute;
+      height: calc(var(--footScale) * 2);
+      width: calc(var(--footScale) * 2);
+      border: 1px solid black;
+      border-radius: 50%;
+      top: 55%;
+      left: var(--footScale);
+
+    }
+
+  /* ---- end STORAGE & MECHANICAL -----  */
+
+  /* ---- BONUS ROOM -----  */
+
+    #bonus-room {
+      position: absolute;
+      height: calc(var(--innerHouseHeight) / 2);
+      width: calc(var(--halfHouseWidth) + var(--stairWidth));
+      bottom: 0;
+      right: 0;
+    }
+
+  /* ---  end BONUS ROOM ---  */
+/* ---  end GROUND LEVEL ----  */

@@ -1,0 +1,122 @@
+*, 
+::before, 
+::after {
+    padding: 20px 0 20px 20px;
+    margin: 10px 0 10px 20px;
+    box-sizing: border-box;
+    border: 2px solid;
+    border-right: none;
+}
+
+.no-format {
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.inline {
+    background-color: yellowgreen;
+}
+
+html {
+    width: 100%;
+    overflow-x: hidden;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+body {
+    background-color: orangered;
+    margin: 0;
+    border: none;
+}
+
+#page-title {
+    position: relative;
+    top: -20px;
+    left: -20px;
+    width: calc(100% + 20px);
+    border: none;
+    margin: 0;
+    padding: 1rem;
+    text-align: center;
+    background: yellowgreen
+}
+
+header {
+    position: relative;
+    background-color: grey;
+    margin: 0;
+    top: -20px;
+    left: -20px;
+    width: calc(100% + 20px);
+}
+
+nav {
+    background-color: black;
+    color: white;
+}
+
+ul, ol {
+    background-color: white;
+    color: black;
+}
+
+li {
+    background-color: orangered;
+}
+
+a {
+    background-color: rgba(255, 69, 0, .3)
+}
+
+#body-note {
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+main {
+    background-color: cornflowerblue;
+    margin: 50px 0;
+}
+
+footer { 
+    background-color: peru;
+    position: relative;
+    bottom: -20px;
+    left: -20px;
+    margin: 0;
+    width: calc(100% + 20px);
+}
+
+#notes {
+    display: grid;
+    grid-template-columns: 1fr, 3fr;
+}
+
+table {
+    width: 100%;
+}
+caption {
+    caption-side: bottom;
+    border: none;
+}
+
+.first {
+    background-color: aqua;
+}
+
+.second {
+    background-color: blueviolet;
+}
+/* ---------- Use this to make 1rem = 10px.  easier to use rem throughout the page and make it more responsive
+html {
+    font-size: 62.5%;
+}
+--------------------------------------- */
+

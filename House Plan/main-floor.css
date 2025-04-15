@@ -1,0 +1,139 @@
+/* ---- MAIN FLOOR ---- */
+
+  /* ----  MASTER SUITE ----- */
+
+    #master-suite {
+      position: absolute;
+      width: var(--halfHouseWidth);
+      height: var(--masterBedHeight);
+      background: var(--color3);
+    }
+
+    #master-suite-wall { 
+      position: absolute;
+      height: var(--innerHouseHeight);
+      transform-origin: top left;
+      right: 0;
+    }
+
+    #master-suite-wall2 {
+      position: absolute;
+      height: calc(var(--halfHouseWidth) - var(--wallWidth2x4));
+      transform-origin: top left;
+      rotate: -90deg;
+      top: 100%;
+      z-index: 1
+    }
+
+    #master-suite-wall3 {
+      position: absolute;
+      height: calc(var(--halfHouseWidth) - var(--wallWidth2x4));
+      transform-origin: top left;
+      rotate: -90deg;
+      top: calc(calc(100% - var(--tubLength)) - var(--wallWidth2x4));
+      z-index: 1
+    }
+
+    #master-bed {
+      left: calc(3 * var(--footScale));
+    }
+
+    #master-closet {
+      position: absolute;
+      width: var(--masterClosetWidth);
+      height: var(--stairHeight);
+      border: 1px solid black;
+      right: calc(0px + var(--wallWidth2x4));
+    }
+
+    #master-closet-wall {
+      height: var(--stairHeight);
+    }
+
+    #master-closet-wall2 {
+      height: var(--masterClosetWidth);
+      transform-origin: top left;
+      rotate: -90deg;
+    }
+
+    #door-4 {
+      top: calc(var(--stairHeight) + calc(calc(calc(48 * var(--inchScale)) - calc(40 * var(--inchScale))) / 2));
+    }
+
+    #door-5 {
+      transform-origin: top;
+      bottom: 9%;
+      rotate: 180deg;
+      right: 0;
+    }
+
+    #door-6 {
+      transform-origin: center center;
+      rotate: 180deg;
+      top: 2.5%;
+    }
+
+    #door-7 {
+      transform-origin: center center;
+      rotate: 180deg;
+      top: 1%;
+    }
+
+    /* --- MASTER BATH  ---- */
+
+      #master-bath {
+        position: absolute;
+        width: var(--masterBathWidth);
+        height: var(--masterBathHeight);
+        bottom: 0;        
+        background: var(--color3);
+      }
+
+      #master-bath-wall {
+        position: absolute;
+        height: var(--masterBathWidth);
+        transform-origin: top left;
+        rotate: -90deg;
+        top: var(--wallWidth2x4);
+      }
+
+      #master-bath-wall2 {
+        position: absolute;
+        height: var(--masterBathWidth);
+        transform-origin: top left;
+        rotate: -90deg;
+        top: 100%;
+      }
+
+      #master-bath-wall3 {
+        position: absolute;
+        height: var(--masterBathHeight);
+        transform-origin: top left;
+        left: calc(100% - var(--wallWidth2x4));
+      }
+
+      #master-toilet {
+        top: var(--wallWidth2x4);
+      }
+
+      #master-tub {
+        bottom: var(--wallWidth2x4);
+        rotate: 180deg;
+      }
+
+      #master-vanity {
+        height: var(--tubLength);
+        right: var(--wallWidth2x4);
+        bottom: var(--wallWidth2x4);
+      }
+
+      #master-toilet-vanity {
+        height: var(--toiletSpace);
+        right: var(--wallWidth2x4);
+        top: var(--wallWidth2x4);
+      }
+
+    /* ---- end MASTER BATH ---- */
+
+  /* ---  end MASTER SUITE ---- */
+/* ---- end MAIN FLOOR ----- */

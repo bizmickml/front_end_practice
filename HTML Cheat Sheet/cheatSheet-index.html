@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<! ---------    The head element contains information about the page.  
+                Nothing in the head is seen on the page 
+                the title element will display as the title of the page in a browser
+                ------------------------------------------------------- >
+    <head> 
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="For when I'm stuck and need to reference what I've learned" />
+        <title>HTML Notes Page</title>
+        <link rel="stylesheet" href="cheatSheet-styles.css" />
+    </head>
+    
+<! --------     This is the body element.
+                This is technically the element that contains what is visible on the page
+                --------------------------------------------------------- >
+    <body>
+        <h1 id="page-title">Michael Lamondy's Cheat Sheet for HTML Elements</h1>
+        <header> This is the header element which generally includes the site name or title and a navbar
+            <nav>this is a nav which is meant to contain the navigation elements on the page but really can contain just about anything
+                <ul>This is an unorderd list which means it's a list with no numbers
+                    <li>This is one list item</li>
+                    <li>Here's another list item</li>
+                </ul>
+                <ol>This is an ordered list which means it should be numbered
+                    <li>This is the first list item</li>
+                    <li>Here's another list item - notice the numbers!</li>
+                </ol>
+            </nav>
+        </header>
+        <div id="body-note">This is the body element which contains all the elements you can see on the page <em class="no-format">(including the header, the title above the header, and the footer)</em></div>
+        <main> 
+            <h3 class="no-format">This is the main element which includes everything on the page but the header and footer elements.</h3>
+            <section>
+                <h3 class="no-format">This is a section element within the main part of the page. used for sectioning off content within the main element</h3>
+            </section>
+            <section>
+                <h1>Header ONE</h1>
+                <h2>Header TWO</h2>
+                <h3>Header THREE</h3>
+                <h4>Header FOUR</h4>
+                <h5>Header FIVE</h5>
+                <h6>Header SIX - as you can see, headers are automoatically sized which can make styling easier or more difficult depending on your goals</h6>
+                <p>Paragragh - there are no subheading or tagline elements so we just use a p element with an appropriate class</p>
+                <p>Another paragragh.  You can write as much as you want inside one of these elements.  Even if it takes up multiple lines or even multiple pages.  If it takes up multiple lines, it will just wrap like this.</p>
+                <hr />
+                <p>There's another element above this paragraph element which is used as a separator.  It's the hr element, but you can't write in it</p>
+                <article>the article element represents content that is meant to be a self-contained composition within a document</article>
+                <aside>aside is used to notate content that is only indirectly related to the main content of a document</aside>
+                <div>this is a div element, just a blank element you can use for pretty much anything</div>
+                <img alt="this is an image element which needs an src address to display.  What you're reading is the alt content of the image element"/>
+                <br />
+                <p>above, there is a br element which creates a line break in text</p>
+            </section>
+            <section>
+                <h3 class="no-format">Here's some examples of "inline" items which can all be displayed as block if desired</h3>
+                <p>This is a p element <span class="no-format inline">with a span element nested inside.</span> Usually you would use a span to section off some text that will be styled differently than the rest of the text that it is nested in</p>
+                <p>This is a p element <a class="no-format inline">with an anchor element nested inside.</a> Usually you would use an anchor element for a link.  Anchor elements can also "surround" other elements to create any sort of link you want but you have to change the display style to block instead of inline</p>
+                <p>This is a p element <em class="no-format inline">with an em element nested inside. em stands for emphasis</em> this one's obvious I think</p>
+                <p>This is a p element <strong class="no-format inline">with a strong element nested inside. "strong" makes the text bold.</strong>  And here's the rest of the paragraph.</p>
+                <form>
+
+<! ---- Form elements have an 'onsubmit' attribute
+        if not set the form submits the data and refreshes the page
+        you can change this by telling the form to do something else 
+        call a javascript function like this:
+            onsubmit="function() return false;"  
+            'return false:' stops the form from refreshing the page                  
+                                ------------------- >
+
+                    <h3 class="no-format">This is a form element with some typical elements included in a form</h3>
+
+<! ---- labels use the 'for' attribute to link with the input they are the label for
+        the input 'name' is what is linked with the answer when the data is collected
+        like the key to a key value pair in an object
+                            -------------------------- >
+
+                    <label class="no-format inline">This is the label element which usually comes before an input of some kind</label>
+                    <input type="text" placeholder="This is a text type input element">
+                    <input type="button" value="This is a button type input element which has no default bahavior.  The text displayed is controlled using the value attribute">
+                    <fieldset>
+                        <legend>This is a fieldset container with a legend.  the fieldset is used to group several controls within a form and the legend is like the title of the fieldset</legend>
+                        <button>This is a button elemment</button>
+                        <input type="checkbox">This is a checkbox type input which allows many options to be selected 
+                        <input type="radio"> This is a radio input which only allows one of many selections
+                        <textarea>This is a textarea input which allows users to enter a sizeable amount of free-form text</textarea>
+                    </fieldset>
+                    
+<! ---- SELECT elements are dropdowns.  
+        options need to include a value attribute to log when the form is submitted otherwise there will be no data
+        NOTE: forms don't save data based on what's visible to the user.
+                                ------------------------------------- >
+                    <select>
+                        <option value="the text to log when the user chooses this option">this is a selectbox which normally has multip options to choose from</option>
+                        <option>Here's what a second option would look like</option>
+                    </select>
+                </form>
+                <dialog>This is a dialog element which is a modal element the user interacts with to use the application</dialog>
+            </section>
+            <section>
+                <h3 class="no-format">Here's a table element with all of it's components</h3>
+                <table class="no-format">
+                    <caption>This is the caption element of a table, it can be styled with css and placed at the top or the bottom</caption>
+                    <colgroup>
+                        <col span="1" class="first" />
+                        <col span="2" class="second" />
+                    </colgroup>
+                    <thead class="no-format">
+                        <tr>
+                            <th>Table Header</th>
+                            <th>Table Header2</th>
+                            <th>Table Header3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>table data</td>
+                            <td>table data</td>
+                            <td>table data</td>
+                        </tr>
+                        <tr>
+                            <th>table header</th>
+                            <td>table data</td>
+                            <td>table data</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2">Table header with colspan 2</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">table data with colspan 3</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">this had table data in a table row with rowspan 2?</td>
+                            <td>another td</td>
+                            <td>another td</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+        </main>
+        <footer> This is the footer and would normally be at the bottom of the page
+            <nav>This is another nav element for page navigation</nav>
+            <p>This would normally be a copyright statemeent</p>
+            <address> this is an address element which indicates that the enclosed html is contact information</address>
+        </footer>
+    </body>
+</html>

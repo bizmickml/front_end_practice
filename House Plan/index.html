@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="description" />
+    <title>House Plan Creator</title>
+    <link rel="stylesheet" href="unitstyles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Mike's Floor Plan Creator</h1>
+      <button id="plan-data-form-button">Hide plan data form</button>
+      <button id="element-menu-button">Show element menu</button>
+
+      <form id="plan-data-form">
+        <h2 class="form-title">Plan Data Form</h2>
+
+        <fieldset id="plan-name-data">
+          <legend>Project Name</legend>
+          <input id="plan-name" type="text">
+        </fieldset>
+
+        <fieldset id="plan-scale-data">
+          <legend>Plan Scale</legend>
+          <label id="scale-input-label" for="scale-input">Select the scale for this plan: </label><select required id="scale-input">
+            <option>Choose an option</option>
+            <option id="scale-input-0.125" value="0.125">1/8 inch = 1 foot</option>
+            <option id="scale-input-0.25" value="0.25" selected>1/4 inch = 1 foot</option>
+            <option id="scale-input-0.5" value="0.5">1/2 inch = 1 foot</option>
+          </select>
+        </fieldset>
+
+        <fieldset id="project-outline-data">
+          <legend>Outline</legend>
+          <p>Enter the outermost dimensions of the project: </p>
+          <fieldset id="project-width">
+            <legend>Width:</legend>
+          </fieldset>
+          <fieldset id="project-height">
+            <legend>Height:</legend>
+          </fieldset>
+        </fieldset>
+
+        <fieldset id="project-floor-count">
+          <legend>Number of floors to include in the plan (including attic and basement if needed):</legend>
+          <select required id="floor-count">
+            <option value="0">Choose an option</option>
+            <option value="1">1 floor</option>
+            <option value="2" selected>2 floors</option>
+            <option value="3">3 floors</option>
+            <option value="4">4 floors</option>
+            <option value="5">5 floors</option>
+            <option value="6">6 floors</option>
+          </select>
+        </fieldset>
+
+        <button id="set-plan-data-button">Set Plan Data</button>
+        <button id="update-plan-data-button">Change Plan Data</button>
+      </form>
+
+      <form id="element-menu" hidden>
+        <h2 class="form-title">Element Menu</h2>
+        <button id="add-element-button">Add an element</button>
+      </form>
+
+    </header>
+    <main></main>
+    <footer></footer>
+    <script src="script.js"></script>
+  </body>
+</html>

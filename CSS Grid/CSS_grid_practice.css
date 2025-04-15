@@ -1,0 +1,114 @@
+@charset "utf-8";
+/* CSS Document */
+
+html {
+    font-size: 62.5%;
+}
+
+*, ::before, ::after {
+/* -------------------------IMPORTANT -------------------
+            this setup means every element on the page will have no padding and no margin (basically bypassing all the standards and allowing for a completely custom layout)
+               - it fixed the problem of the fist paragraph showing up lower than the rest -
+            -------------------------------------------- */
+    padding: 0;  
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+/*  --------------- GRID SETUP -------------------- */
+
+.main-grid {
+    margin: 5vh 0 5vh 0;
+    display: grid;
+    grid-template-columns: minmax(3%, calc(calc(100% - 1435px) / 2)) minmax(min-content, 1435px) minmax(3%, calc(calc(100% - 1435px) / 2));
+/* ------- this layout allows for a "margin" column on each side of a column in the middle for content ------------ */
+    background: green;
+    padding: 5rem 0 5rem 0;  /* -- IMPORTANT padding here must come AFTER the grid information, otherwise it doesn't work --*/
+    
+}
+
+.text {
+    grid-column: 2 / 3; /* -- SIZE AND LOCATIONS - which column the item starts and ends in -- */
+    column-width: 24rem; /* -- to specify the width of each text column created within the grid column 
+                             negative and % values are NOT valid -- */
+    column-gap: 2rem;  /* -------- establishes the gap between multiple columns --------- */
+    text-align: justify; /* -- to space the words out evenly within the columns (like a newspaper) _____*/
+    letter-spacing: .08rem;
+    font-size: 2rem;
+}
+
+p:first-of-type::first-letter {
+    font-size: 6rem;
+    padding-right: 1rem;
+    color: olivedrab;
+    font-weight: bold;
+    float: left;
+    margin-top: -1rem;
+}
+
+.nine-container {
+    grid-column: 2 / 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: black;
+    color: white;
+    height: 500px;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 4px 4px 4px white;
+}
+p:nth-of-type(9) {
+    grid-column: 2 / -1;
+}
+s
+.grid-two {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+#block-visual {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+     /* --- JUSTIFY-items makes controls horizontal placement of items within the grid
+    justify-items: center;
+                 as oposed to ALIGN items which controls vertical placement ---*/
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.div-container {
+    display: grid;
+    grid-template-columns: 2fr;
+    grid-template-rows: repeat(9, min-content);
+    place-items: center;
+}
+#block-visual div {
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    /* --
+    justify-content: center;
+   --  */
+    align-items: center;
+    border: 1px solid black;
+    margin: 2px;
+    border-radius: 10px;
+    height: 100px;
+    width: 100%;
+    background: red;
+    color: white;
+}
+
+#block-visual p {
+    grid-column: 1 / 2;
+    
+}
+
+.text-test {
+
+}

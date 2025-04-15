@@ -1,0 +1,222 @@
+/* ---  FLOOR PLAN ------- */
+
+  .scene {
+    position: relative;
+    width: calc(var(--houseWidth) * 1.2);
+    height: calc(var(--houseHeight) * 1.4);
+    border: 1px solid black;
+    margin: 50px;
+  }
+
+  .key-container {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: end;
+    width: 100%;
+    gap: 3rem;
+    padding: 3rem;
+  }
+
+  .key-container h1 {
+    width: 100%;
+    font-size: 10rem;
+    text-align: center;
+  }
+
+  .scale-box {
+    width: fit-content;
+    align-self: flex-end;
+    justify-self: flex-end;
+    padding: 1.5rem;
+    border: 1px solid black;
+    font-size: 4rem;
+  }
+
+  .scale {
+    margin-top: 15px;
+    width: calc(5 * var(--footScale));
+    border: 1px solid black;
+    background: repeating-linear-gradient(90deg, black, black 20%, white 20%, white 40%);
+    height: 2rem;
+  }
+
+  .scale-text {
+    font-size: 3rem;
+    padding-top: 5px;
+    width: calc(5 * var(--footScale));
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    text-align: center;
+  }
+
+  .wall-types-container {
+    align-self: flex-end;
+    justify-self: flex-end;
+    display: flex;
+    border: 1px solid black;
+    padding: 3rem;
+    gap: 3rem;
+  }
+
+  .key-wall-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(3 * var(--footScale));
+    font-size: 4.5rem;
+  }
+
+  .key-wall {
+    height: calc(3 * var(--footScale));
+    rotate: 90deg;
+    margin: calc(-1 * var(--footScale)) 0;
+  }
+
+  .wall-types-container ul {
+    font-size: 3.5rem;
+    list-style-type: none;
+  }
+
+  /* ---  EXTERIOR  ---  */
+
+    .exterior {
+      position: absolute;
+      top: calc(var(--houseHeight) * .1);
+      left: calc(var(--houseWidth) * .1);
+      width: var(--houseWidth);
+      height: var(--houseHeight);
+    }
+
+    /* ---  EXTERIOR WALLS  --- */
+
+      #left-exterior-wall {
+        height: var(--houseHeight);
+        position: absolute;
+      }
+
+      #right-exterior-wall {
+        height: var(--houseHeight);
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      #rear-exterior-wall {
+        position: absolute;
+        height: var(--houseWidth);
+        top: calc(calc(calc(0px - var(--houseWidth)) / 2) + calc(var(--wallWidth2x6) / 2));
+        left: calc(calc(var(--houseWidth) / 2) - calc(var(--wallWidth2x6) / 2));
+        rotate: 90deg;
+      }
+
+      #front-exterior-wall {
+        position: absolute;
+        height: var(--houseWidth);
+        rotate: 90deg;
+        bottom: calc(calc(calc(0px - var(--houseWidth)) / 2) + calc(var(--wallWidth2x6) / 2));
+        left: calc(calc(var(--houseWidth) / 2) - calc(var(--wallWidth2x6) / 2));
+      }
+
+    /* ---  end EXTERIOR WALLS ---  */
+  /* ---  end EXTERIOR --- */
+
+  /* ---  INTERIOR ----- */
+
+    .interior {
+      position: absolute;
+      width: var(--innerHouseWidth);
+      height: var(--innerHouseHeight);
+      left: var(--wallWidth2x6);
+      top: var(--wallWidth2x6);
+    }
+
+    /* ---  INTERIOR STAIRS ------- */
+
+      .stairs {
+        position: absolute;
+        width: var(--stairWidth);
+        height: var(--stairHeight);
+        left: calc(50% - calc(var(--stairWidth) / 2));
+      }
+
+      .landing {
+        position: relative;
+        width: 100%;
+        height: calc(3.5 * var(--footScale));
+        border: 1px solid black;
+      }
+
+      .step {
+        width: calc(3.5 * var(--footScale));
+        height: var(--footScale);
+        border: 1px solid black;
+      }
+
+      .step:nth-of-type(n+8):nth-of-type(-n+13) {
+        position: relative;
+        left: calc(var(--treadWidth) + var(--wallWidth2x4));
+        top: calc(-6 * var(--footScale));
+      }
+
+      #stair-middle-wall {
+        position: absolute;
+        height: calc(6 * var(--footScale));
+        top: calc(3.5 * var(--footScale));
+        left: var(--treadWidth);
+      }
+
+      .direction-arrow-line {
+        position: absolute;
+        height: calc(5.5 * var(--footScale));
+        width: 60%;
+        top: 27%;
+        left: calc(calc(100% - 60%) / 2);
+        border-left: 6px solid black;
+        border-top: 6px solid black;
+        border-right: 6px solid black;
+        display: flex;
+      }
+
+      .direction-arrow-line span {
+        text-align: center;
+        margin: 2rem auto;
+        font-size: 3rem;
+      }
+
+      .direction-arrow {
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        top: calc(100% - 30px);
+        right: calc(100% - calc(calc(30px / 2) - 3px));
+        rotate: 45deg;
+        background: linear-gradient(-45deg, black, black 50%, transparent 50%, transparent);
+      }
+
+      .direction-arrow.ground {
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        top: calc(100% - 240px);
+        right: calc(100% - calc(calc(30px / 2) - 3px));
+        rotate: 45deg;
+        background: linear-gradient(-45deg, black, black 50%, transparent 50%, transparent);
+      }
+
+      .direction-arrow2 {
+        position: absolute;
+        top: calc(100% - 15px);
+        left: calc(100% - 12px);
+        height: 30px;
+        width: 30px;
+        rotate: 225deg;
+        background: linear-gradient(-45deg, black, black 50%, transparent 50%, transparent);
+      }
+
+    /* ---  end INTERIOR STAIRS ------  */
+  /* ---  end INTERIOR --------- */
+/* ---- end FLOOR PLAN  --------  */

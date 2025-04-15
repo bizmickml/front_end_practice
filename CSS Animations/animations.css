@@ -1,0 +1,166 @@
+/* -----  This is where I'll keep variables if I have any  
+:root {
+}
+------ */
+
+/* -----  This setting zeros out the page so I can control all the margins and padding manually ------ */
+*, 
+::before, 
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ------ This setting sets the standard browser font size to 10px to make the math of working with rem easier ------ */
+html {
+  font-size: 62.5%;
+}
+
+/* -----  This setting makes the standard width of my page equal to the entire viewidth 
+          and gets rid of the horizontal scroll bar (sets the width of the page "inside of" the vertical scroll bar ---- */
+body {
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+/* ----   These will be my "sections" to contain each challenge 
+          position relative is imperative to allow for child divs to overlap using positiong absolute --------- */
+.section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+}
+
+
+/* -----  Challenge #1 
+          color changing background  --------- */
+
+:root {
+  --backgroundColor1: rgb(191, 225, 0);
+  --backgroundColor2: rgb(0, 225, 0);
+}
+
+.challenge1 {
+  background: var(--backgroundColor1);
+  animation: colorFlash 1s linear infinite;
+}
+
+@keyframes colorFlash {
+  0% {
+    background-color: var(--backgroundColor1);
+  }
+  10% {
+    background-color: var(--backgroundColor2);
+  }
+  15% {
+    background-color: var(--backgroundColor1);
+  }
+  55% {
+    background-color: var(--backgroundColor2);
+  }
+  65% {
+    background-color: var(--backgroundColor1);
+  }  
+  90% {
+    background-color: var(--backgroundColor2);
+  }
+}
+
+
+/* -----  Challenge #2 
+          scrolling text --------------- */
+
+:root {
+  --text-width: 350px;
+  --scroll-time: 6s;
+}
+.challenge2 div {
+  position: absolute;
+  display: block;
+  top: calc(50% - calc(7rem / 2));
+  left: 100vw;
+  font-size: 7rem;
+  width: var(--text-width);
+  animation: scroll var(--scroll-time) linear infinite;
+}
+
+        /* ---- the animation delay calculation below is the complete animation time divided by the number of elements 
+        to acheive a uniform space between each text element. -------- */
+.challenge2 div:first-of-type {
+  animation-delay: calc(var(--scroll-time) / 5);
+}
+
+.challenge2 div:nth-of-type(2) {
+  animation-delay: calc(calc(var(--scroll-time) / 5) * 2);
+}
+
+.challenge2 div:nth-of-type(3) {
+  animation-delay: calc(calc(var(--scroll-time) / 5) * 3);
+}
+
+.challenge2 div:nth-of-type(4) {
+  animation-delay: calc(calc(var(--scroll-time) / 5) * 4);
+}
+
+.challenge2 div:nth-of-type(5) {
+  animation-delay: calc(calc(var(--scroll-time) / 5) * 5);
+}
+
+        /* ---- NOTE: the animation is a pre-determined width of pixels so that
+        on any screen width, it looks the same ---------- */
+@keyframes scroll {
+  100% {
+    transform: translate(calc(-2560px - var(--text-width)));
+  }
+}
+
+/* -----  Challenge #3
+          rotating sphere with text ------- */
+
+.challenge3 {
+  background: rgb(5, 5, 201);
+}
+
+.challenge3 #sphere-container {
+  background: white;
+  height: 400px;
+  width: 400px;
+  position: absolute;
+  top: calc(50vh - 150px);
+  left: calc(50vw - 150px);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.challenge3 .sphere {
+  position: absolute;
+  background: transparent;
+  height: 400px;
+  width: 400px;
+  border-radius: 50%;
+  border: 1px solid black;
+  animation: rotate 5s linear infinite;
+}
+
+.challenge3 .circle {
+  position: absolute;
+  border: 2px solid black;
+  height: 400px;
+  width: 400px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.challenge3 .circle #0 {
+  rotate: 0 1 1 60deg;
+}
+
+
+
+@keyframes rotate {
+  to {
+    transform: rotate3d(0, 1, 0, 360deg);
+  }
+}
+

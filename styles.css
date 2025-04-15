@@ -1,0 +1,35 @@
+/* -----  This is where I'll keep variables if I have any  ------ */
+:root {
+--color1: black;
+}
+
+
+/* -----  This setting zeros out the page so I can control all the margins and padding manually ------ */
+*, 
+::before, 
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ------ This setting sets the standard browser font size to 10px to make the math of working with rem easier ------ */
+html {
+  width: 100vw;
+  font-size: 62.5%;
+}
+
+
+/* -----  This setting makes the standard width of my page equal to the entire viewidth 
+          and gets rid of the horizontal scroll bar (sets the width of the page "inside of" the vertical scroll bar ---- */
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.door-opening{
+  width: 100%;
+  height: 100px;
+  background: var(--color2);
+}

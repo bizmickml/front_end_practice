@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="description" />
+    <title>Title</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <form id="edit-master-sheet-form">
+        <h3>Edit Master Sheet</h3>
+        <h4>Add an Item</h4>
+        <label for="add-category-input">Category: <input id="add-category-input" type="text" value="add a category"></label>
+        <label for="add-description-input">Description: <input id="add-description-input" type="text" value="add a description"></label>
+        <label for="add-due-date-input">Due Date: <input id="add-due-date-input" type="text" value="add a due date note"></label>
+        <label for="add-budget-amount-input">Budget Amount: $<input id="add-budget-amount-input" type="number" value="add a budget amount"></label>
+        <button id="master-sheet-submit-btn">Submit Change</button>
+      </form>
+      <form>
+        <h3>Add an item</h3>
+        <select name="Category" id="Category-Selector">
+          <option value="">Please Choose a Category</option>
+        </select>
+        <select name="Description" id="Description-Selector">
+          <option value="">Please Choose a Description</option>
+        </select>
+      </form>
+    </header>
+    <main></main>
+    <footer></footer>
+    <script src="script.js"></script>
+  </body>
+</html>

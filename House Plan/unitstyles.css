@@ -1,0 +1,385 @@
+:root {
+  --outlineColor: rgba(0, 0, 0, .05);
+}
+
+*, 
+::before, 
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+/* ---- NOTES & LABELS -------- */
+
+  .underline {
+    text-decoration: underline;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .label-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .label-text {
+    background: white;
+    padding: 1.5rem 5rem;
+    border-radius: 10px;
+    font-size: 4.5rem;
+    line-height: 1.4;
+  }
+
+  .unit-note {
+    padding: 2rem 5rem;
+    border-radius: 10px;
+    font-size: 3.5rem;
+    line-height: 1.2;
+  }
+
+/* ---- end NOTES & LABELS ---------  */
+
+/* ---- WALL TYPES -----  */
+  .partition-wall {
+    position: absolute;
+    height: var(--wallWidth2x4);
+    background: repeating-linear-gradient(60deg, white, white 20px, black 20px, black 40px);
+    border: 1px solid black;
+    border-top: red;
+    transform-origin: top left;
+  }
+
+  .exterior-wall {
+    position: absolute;
+    height: var(--wallWidth2x6);
+    background: repeating-linear-gradient(white, white 20px, black 20px, black 40px);
+    border: 1px solid black;
+    transform-origin: top left;
+  }
+
+  .bearing-wall {
+    position: absolute;
+    height: var(--wallWidth2x4);
+    background: repeating-linear-gradient(45deg, white, white 4px, black 4px, black 6px);
+    border: 1px solid black;
+    transform-origin: top left;
+  }
+
+  .beam {
+    position: absolute;
+    height: var(--wallWidth2x4);
+    border: 1px dashed black;
+    background: linear-gradient(90deg, white, white calc(100% * calc(1.5 / 3.5)), black calc(100% * calc(1.5 / 3.5)), black calc(100% * calc(2 / 3.5)), white calc(100% * calc(2 / 3.5)));
+    transform-origin: top left;
+  }
+
+/* ---- end WALL TYPES ---- */
+
+/* ---- DOORS --------  */
+  /* height = thickness
+  *  width = opening size */
+
+  .door {
+    position: absolute;
+    height: 100%;
+    left: 300px;
+  }
+
+  .door-casing-left {
+    position: absolute;
+    right: 100%;
+    top: calc(var(--inchScale) * -.75);
+    width: calc(var(--inchScale) * 4);
+    height: var(--wallWidth2x4);
+    box-sizing: content-box;
+    border-top: calc(var(--inchScale) * .75) solid black;
+    border-bottom: calc(var(--inchScale) * .75) solid black;
+  }
+
+  .door-opening {
+    position: absolute;
+    background: white;
+    border-right: 2px solid black;
+    border-left: 2px solid black;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .door-slab {
+    position: relative;
+    background: black;
+    height: calc(var(--inchScale) * 1.25);
+    transform-origin: top right;
+    rotate: 45deg;
+    width: 100%;
+  }
+
+  .door-swing {
+    position: relative;
+    width: 125%;
+    height: 700%;
+    border-radius: 50%;
+    background: radial-gradient(90% 100% at 50% 100%, transparent, transparent 97%, black 98%);
+    transform-origin: top left;
+    rotate: -75deg;
+    left: 10%;
+    top: 340%;
+  }
+
+  .door-casing-right {
+    position: absolute;
+    left: 100%;
+    top: calc(var(--inchScale) * -.75);
+    width: calc(var(--inchScale) * 4);
+    height: var(--wallWidth2x4);
+    box-sizing: content-box;
+    border-top: calc(var(--inchScale) * .75) solid black;
+    border-bottom: calc(var(--inchScale) * .75) solid black;
+  }
+
+  .pocket-door26 {
+    position: absolute;
+  }
+
+  .pocket-door-frame {
+    position: relative;
+    height: calc(var(--footScale) * 5);
+    width: var(--wallWidth2x4);
+    background: white;
+    border: 1px solid black;
+  }
+
+  .pocket-door-slab {
+    position: relative;
+    height: calc(var(--inchScale) * 30);
+    width: calc(1.25 / 12 * var(--footScale));
+    background: black;
+    left: 30%;
+  }
+
+  .lh282x4-container {
+    position: absolute;
+  }
+
+  .door-opening-28 {
+    position: relative;
+    height: calc(var(--inchScale) * 32);
+    width: var(--wallWidth2x4);
+    background: black;
+  }
+
+  .door-28 {
+    position: absolute;
+    width: calc(1.25 / 12 * var(--footScale));
+    height: calc(32 * var(--inchScale));
+    background: black;
+    rotate: -50deg;
+    right: 335%;
+    top: 23%
+  }
+
+  .door-swing-28 {
+    position: absolute;
+    width: calc(3.5 * var(--footScale));
+    height: calc(3.2 * var(--footScale));
+    border-radius: 50%;
+    background: radial-gradient(90% 100% at 50% 100%, transparent, transparent 97%, black 98%);
+    top: 35%;
+    left: calc(-2.6 * var(--footScale))
+  }
+
+  .lh302x4-container {
+    position: absolute;
+    width: calc(3 * var(--footScale));
+    height: calc(3 * var(--footScale));
+    border-top: var(--wallWidth2x4) solid black;
+  }
+
+  .rh302x4-container {
+    position: absolute;
+    width: calc(3 * var(--footScale));
+    height: calc(3 * var(--footScale));
+    border-top: var(--wallWidth2x4) solid black;
+    scale: -1 1;
+  }
+
+  .lh302x6-container {
+    position: absolute;
+    width: calc(3 * var(--footScale));
+    height: calc(3 * var(--footScale));
+    border-top: var(--wallWidth2x6) solid black;
+  }
+
+  .door-30 {
+    position: absolute;
+    top: calc(-.6 * var(--footScale));
+    left: calc(1.7 * var(--footScale));
+    width: calc(1.25 / 12 * var(--footScale));
+    height: calc(3 * var(--footScale));
+    background: black;
+    rotate: 50deg;
+  }
+
+  .door-swing-30 {
+    position: absolute;
+    top: calc(-.8 * var(--footScale));
+    left: calc(.5 * var(--footScale));
+    width: calc(3.5 * var(--footScale));
+    height: calc(3.2 * var(--footScale));
+    border-radius: 50%;
+    background: radial-gradient(90% 100% at 50% 100%, transparent, transparent 97%, black 98%);
+    rotate: -90deg;
+  }
+
+  .entry-door-container {
+    position: absolute;
+    width: calc(5 * var(--footScale));
+    height: calc(3 * var(--footScale));
+    border-top: var(--wallWidth2x6) solid black;
+  }
+
+  .entry-door {
+    position: absolute;
+    top: calc(-.6 * var(--footScale));
+    left: calc(3.6 * var(--footScale));
+    width: calc(1.25 / 12 * var(--footScale));
+    height: calc(3 * var(--footScale));
+    background: black;
+    rotate: 50deg;
+  }
+
+  .entry-door-swing {
+    position: absolute;
+    top: calc(-.8 * var(--footScale));
+    left: calc(2.4 * var(--footScale));
+    width: calc(3.5 * var(--footScale));
+    height: calc(3.2 * var(--footScale));
+    border-radius: 50%;
+    background: radial-gradient(90% 100% at 50% 100%, transparent, transparent 97%, black 98%);
+    rotate: -90deg;
+  }
+
+/* ---- end DOORS ------- */
+
+/* ---  FIXTURES -------- */
+
+  .toilet-container {
+    position: absolute;
+    width: var(--toiletSpace);
+    height: var(--toiletSpace);
+    background: var(--colorClearance);
+  }
+
+  .toilet-bowl {
+    position: absolute;
+    width: calc(var(--footScale) * 1.5);
+    height: var(--footScale);
+    border: 1px solid black;
+    border-radius: 50%;
+    left: calc(var(--footScale) * .5);
+    background: white;
+    top: var(--footScale);
+  }
+
+  .toilet-tank {
+    position: absolute;
+    width: calc(var(--inchScale) * 10);
+    height: calc(var(--footScale) * 1.5);
+    border: 1px solid black;
+    border-radius: 20px;
+    background: white;
+    left: calc(var(--inchScale) * calc(0 - 5));
+    top: calc(var(--inchScale) * calc(0 - 4));
+  }
+
+  .tub-container {
+    position: absolute;
+    height: var(--tubLength);
+    width: var(--tubWidth);
+    background: white;
+    border: 1px solid black;
+    border-radius: 20px;
+  }
+
+  .tub {
+    position: absolute;
+    height: 80%;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 20px;
+    top: 8%;
+    left: 10%;
+  }
+
+  .tub-drain {
+    position: absolute;
+    height: calc(var(--inchScale) * 4);
+    width: calc(var(--inchScale) * 4);
+    border: 1px solid black;
+    border-radius: 50%;
+    top: 10%;
+    left: calc(50% - calc(var(--inchScale) * 2));
+  }
+
+  .bath-sink {
+    position: absolute;
+    width: var(--footScale);
+    height: calc(var(--footScale) * 1.5);
+    border: 1px solid black;
+    border-radius: 50%;
+    top: calc(50% - calc(var(--footScale) * .75));
+    left: 20%;
+
+  }
+
+  .sink-drain {
+    position: absolute;
+    width: calc(var(--inchScale) * 2);
+    height: calc(var(--inchScale) * 2);
+    border: 1px solid black;
+    border-radius: 50%;
+    top: calc(50% - var(--inchScale));
+    left: calc(50% - var(--inchScale));
+  }
+
+/* ---- end FIXTURES ------ */
+
+/* ---- CABINETS -------- */
+
+  .cabinet {
+    position: absolute;
+    width: calc(var(--footScale) * 2);
+    background: white;
+    border: 1px solid black;
+  }
+
+/* ---- end CABINETS ------ */
+
+/* ---- FURNATURE --------- */
+
+  .king-bed {
+    position: absolute;
+    width: calc(var(--footScale) * 6);
+    height: calc(var(--footScale) * 7);
+    background: white;
+    border: 1px solid black;
+    border-radius: 15px;
+  }
+
+/* ---- end FURNATURE --------- */

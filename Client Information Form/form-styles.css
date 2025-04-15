@@ -1,0 +1,149 @@
+/* -----  This is where I'll keep variables if I have any  ------ */
+:root {
+  --color1: white;
+  --color2: rgb(216, 236, 216);
+  --color3: rgb(3, 126, 29);
+  --headTabGradient: linear-gradient(0deg, rgb(3, 126, 29), rgb(83, 233, 115) 15%);
+  --color4: black;
+  --shadow1: rgba(0, 0, 0, .5);
+}
+
+
+/* -----  This setting zeros out the page so I can control all the margins and padding manually ------ */
+*, 
+::before, 
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ------ This setting sets the standard browser font size to 10px to make the math of working with rem easier ------ */
+html {
+  width: 100vw;
+  font-size: 62.5%;
+}
+
+
+/* -----  This setting makes the standard width of my page equal to the entire viewidth 
+          and gets rid of the horizontal scroll bar (sets the width of the page "inside of" the vertical scroll bar ---- */
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+
+/*  Start Control Box --------
+    - need to add controls for different sorting options as well as a dropdown button to add a contact
+*/
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 80%;
+  margin: 3vh auto 1vh;
+}
+
+button {
+  padding: .25rem 2rem;
+  font-size: 1.5rem;
+  background: var(--headTabGradient);
+  border: 1px solid var(--shadow1);
+  border-radius: 3px;
+}
+
+#sort-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  width: 30%;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  padding: .25rem 0;
+}
+
+#sort-controls select {
+  padding: .25rem;
+  font-size: 1.5rem;
+}
+
+.form-container {
+  width: 80%;
+  margin: 0 auto 1vh;
+}
+
+
+/*  End of Control Box -------- */
+/*  Start TABLE section -------- */
+
+main {
+  display: grid;
+  grid-template-columns: minmax(1%, .5fr) minmax(min-content, 6fr) minmax(1%, .5fr);
+}
+
+table {
+  grid-column: 2 / 3;
+  background-color: var(--color2);
+  border-radius: 3px;
+  box-shadow: 0 0 3px var(--shadow1);
+  padding: 1rem;
+}
+
+th {
+  padding: .5rem 0;
+  border-radius: 3px 3px 0 0;
+  border: 1px solid var(--color4);
+  border-bottom: none;
+  background: var(--headTabGradient);
+  font-size: 1.75rem;
+  color: var(--color4);
+  box-shadow: 0 -1px 3px var(--shadow1);
+}
+
+#column1-heading {
+  transform: scale(1.15);
+}
+
+.client-card div {
+  box-shadow: 0 0 5px var(--shadow1);
+  border-radius: 10px;
+  padding: .75rem;
+  vertical-align: top;
+  background: var(--color1);
+  width: 90%;
+  margin: 0 auto;
+}
+
+.client-card-title:not(.client-Id) {
+  text-align: left;
+  text-indent: 10%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: .95rem 0 .5rem 0;
+}
+
+.client-Id {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.client-card-data {
+  font-size: 1.25rem;
+}
+
+.edit-button {
+  padding: unset;
+  background: unset;
+  border: unset;
+  margin-top: 25%;
+  width: 100%;
+  font-size: 1.2rem;
+}
+
+.hide {
+  display: none;
+}
