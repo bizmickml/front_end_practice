@@ -9,27 +9,89 @@
   </head>
   <body>
     <header>
-      <form id="edit-master-sheet-form">
+      <h1><span id="client-name-span"></span> Personal Accounting Record</h1>
+      <div id="welcome-msg">
+        <h3>Welcome!</h3>
+        <p>Use this app to track your financial transactions and manage your budget.</p>
+        <p>Enter your name below to get started.</p>
+      </div>
+      <form id="client-name-form">
+        <fieldset>
+          <label for="client-name-input">Your Name: <input id="client-name-input" type="text"></label>
+          <button id="client-name-submit-btn">Submit</button>
+          <button hidden id="clear-name-btn">Clear Name</button>
+          <button hidden id="cancel-edit-name-btn">Cancel</button>
+        </fieldset>
+      </form>
+      <button hidden id="master-sheet-show-hide-btn">Edit Master Sheet</button>
+      <button hidden id="transaction-show-hide-btn">Add a Transaction</button>
+      <button hidden id="edit-name-button">Change/Edit Name</button>
+      
+      <form hidden id="master-sheet-form">
         <h3>Edit Master Sheet</h3>
-        <h4>Add an Item</h4>
-        <label for="add-category-input">Category: <input id="add-category-input" type="text" value="add a category"></label>
-        <label for="add-description-input">Description: <input id="add-description-input" type="text" value="add a description"></label>
+        <fieldset>
+          <legend>Categories</legend>
+          <select id="edit-master-sheet-selector">
+            <option value="">Please choose an option</option>
+            <option value="addCategory">Add New Category</option>
+            <option value="editCategories">Edit Existing Categories</option>
+          </select>
+          <div hidden id="add-category-container"><label for="add-category-input">New Category Name: </label><input id="add-category-input" type="text" placeholder="enter new category name"></div>
+          <div hidden id="edit-category-container"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Vendors & Accounts</legend>        
+          <select id="edit-master-vendor-selector">
+            <option value="">Please choose an option</option>
+            <option value="addVendor">Add New Vendor</option>
+            <option value="editVendors">Edit <span class="vendor-category-span"></span> Vendors</option>
+          </select>
+        </fieldset>
+        <label hidden for="add-vendor-input">Vendor/Account: <input id="add-vendor-input" type="text" value="add a description"></label>
         <label for="add-due-date-input">Due Date: <input id="add-due-date-input" type="text" value="add a due date note"></label>
         <label for="add-budget-amount-input">Budget Amount: $<input id="add-budget-amount-input" type="number" value="add a budget amount"></label>
-        <button id="master-sheet-submit-btn">Submit Change</button>
+        <button id="master-sheet-submit-btn">Submit</button>
       </form>
-      <form>
-        <h3>Add an item</h3>
-        <select name="Category" id="Category-Selector">
-          <option value="">Please Choose a Category</option>
-        </select>
-        <select name="Description" id="Description-Selector">
-          <option value="">Please Choose a Description</option>
-        </select>
+
+      <form hidden id="transaction-form">
+        <h3>Add a transaction:</h3>
+        <fieldset id ="transaction-category-field">
+          <legend>Category:</legend>
+          <select name="Category" id="transaction-category-selector">
+            <option value="">Please Choose a Category</option>
+            <option value="addCategory">Add New</option>
+          </select>
+        </fieldset>
+        <fieldset id="transaction-vendor-field">
+          <legend>Vendor/Account:</legend>
+          <select name="Vendor" id="transaction-vendor-selector">
+            <option value="">Please Choose a Vendor/Account</option>
+            <option value="addVendor">Add New</option>
+          </select>
+        </fieldset>
+        <fieldset id="transaction-description-field">
+          <legend>Description:</legend>
+          <input type="text" name="Description" id="transaction-description-input" />
+        </fieldset>
+        <fieldset id="transaction-date-field">
+          <legend>Date:</legend>
+          <input type="date" name="Transaction Date" id="transaction-date-input" />
+        </fieldset>
+        <fieldset id="transaction-budget-field">
+          <legend>Budget:</legend>
+          <p>Is this a regular expense?</p>
+          <input id="transaction-budget-yes" name="transaction-budget" type="radio" value="yes" /><label for="yes">Yes</label>
+          <input id="transaction-budget-no" name="transaction-budget" type="radio" value="no" /><label for="no">No</label>
+        </fieldset>
+
       </form>
+
     </header>
-    <main></main>
+    <main>
+      <div class="container" id="spreadsheet-container"></div>
+    </main>
     <footer></footer>
     <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/e6e61798e8.js" crossorigin="anonymous"></script>
   </body>
 </html>
