@@ -3,95 +3,127 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="description" />
-    <title>Title</title>
+    <meta name="description" content="Personal Accounting Record App. Keep track of financial transactions. Keep a budget." />
+    <title>Personal Accounting Record</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   </head>
   <body>
+
     <header>
-      <h1><span id="client-name-span"></span> Personal Accounting Record</h1>
-      <div id="welcome-msg">
-        <h3>Welcome!</h3>
+      <div hidden id="user-msg-container"></div>
+      <h1 id="title-line"><span id="user-name-span"></span> Personal Accounting Record</h1>
+
+      <section id="welcome-msg">
+        <h2>Welcome!</h2>
         <p>Use this app to track your financial transactions and manage your budget.</p>
+        <p>NOTE: <em>This app is still in the developement and testing stages.  Currently, any data entered is stored on your local machine.  Clearing your cookies or cache may result in loss of data.</em></p>
         <p>Enter your name below to get started.</p>
-      </div>
-      <form id="client-name-form">
+      </section>
+
+      <form action="javascript:;" onsubmit="getFormEntries(this)" id="user-name-form" name="user-name-form">
         <fieldset>
-          <label for="client-name-input">Your Name: <input id="client-name-input" type="text"></label>
-          <button id="client-name-submit-btn">Submit</button>
-          <button hidden id="clear-name-btn">Clear Name</button>
-          <button hidden id="cancel-edit-name-btn">Cancel</button>
+          <h3>User Name</h3>
+          <label>Your Name: <input value="Mike" id="user-name-input" type="text" name="userName" required autocomplete="name"></label>
+          <div class="btn-container">
+            <button id="user-name-submit-btn" type="submit">Submit</button>
+            <button hidden id="clear-user-name-btn" type="button" onclick="clearName()">Clear Name</button>
+            <button hidden id="cancel-user-name-edit-btn" type="button" onclick="ifUserToggle()">Cancel</button>
+          </div>
         </fieldset>
       </form>
-      <button hidden id="master-sheet-show-hide-btn">Edit Master Sheet</button>
-      <button hidden id="transaction-show-hide-btn">Add a Transaction</button>
-      <button hidden id="edit-name-button">Change/Edit Name</button>
-      
-      <form hidden id="master-sheet-form">
-        <h3>Edit Master Sheet</h3>
-        <fieldset>
-          <legend>Categories</legend>
-          <select id="edit-master-sheet-selector">
-            <option value="">Please choose an option</option>
+
+      <section hidden id="controls-container">
+        <button id="transaction-show-hide-btn" type="button" onclick="toggleTransactionForm(this)">Add a Transaction</button>
+        <button id="category-form-show-hide-btn" type="button" onclick="toggleCatForm(this)">Edit Categories</button>
+        <button id="vendor-form-show-hide-btn" type="button" onclick="toggleVendorForm(this)">Edit Vendors</button>
+        <button id="edit-name-button" type="button" onclick="toggleUserNameForm()">Change/Edit Name</button>
+        <button id="clear-data-btn" type="button" onclick="clearAllData()">Clear ALL Data</button>
+      </section>
+
+      <form name="category-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden id="category-form">
+        <h3 class="form-title">Category Form</h3>
+        <fieldset id="category-fieldset">
+          <select id="edit-category-selector">
+            <option value="" selected>-- Choose an option to edit categories --</option>
             <option value="addCategory">Add New Category</option>
             <option value="editCategories">Edit Existing Categories</option>
           </select>
-          <div hidden id="add-category-container"><label for="add-category-input">New Category Name: </label><input id="add-category-input" type="text" placeholder="enter new category name"></div>
-          <div hidden id="edit-category-container"></div>
+          <div id="category-container" name="category-container"></div>
         </fieldset>
-        <fieldset>
-          <legend>Vendors & Accounts</legend>        
-          <select id="edit-master-vendor-selector">
-            <option value="">Please choose an option</option>
-            <option value="addVendor">Add New Vendor</option>
-            <option value="editVendors">Edit <span class="vendor-category-span"></span> Vendors</option>
-          </select>
-        </fieldset>
-        <label hidden for="add-vendor-input">Vendor/Account: <input id="add-vendor-input" type="text" value="add a description"></label>
-        <label for="add-due-date-input">Due Date: <input id="add-due-date-input" type="text" value="add a due date note"></label>
-        <label for="add-budget-amount-input">Budget Amount: $<input id="add-budget-amount-input" type="number" value="add a budget amount"></label>
-        <button id="master-sheet-submit-btn">Submit</button>
+        <button class="btn submit-btn" type="submit">Submit Changes</button>
+        <button class="btn cancel-btn" onclick="forceCatToggle()" type="button">Cancel</button>
       </form>
 
-      <form hidden id="transaction-form">
-        <h3>Add a transaction:</h3>
-        <fieldset id ="transaction-category-field">
-          <legend>Category:</legend>
-          <select name="Category" id="transaction-category-selector">
-            <option value="">Please Choose a Category</option>
-            <option value="addCategory">Add New</option>
+      <form name="vendor-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden id="vendor-form">
+        <h3 class="form-title">Vendor Form</h3>
+        <fieldset id="vendor-fieldset">
+          <select id="edit-vendor-selector">
+            <option value="">-- Choose an option to edit vendors or accounts --</option>
+            <option value="addVendor">Add New Vendor</option>
+            <option value="editVendors">Edit Existing Vendors</option>
           </select>
+          <div id="vendor-container" name="vendor-container"></div>
         </fieldset>
-        <fieldset id="transaction-vendor-field">
-          <legend>Vendor/Account:</legend>
-          <select name="Vendor" id="transaction-vendor-selector">
-            <option value="">Please Choose a Vendor/Account</option>
-            <option value="addVendor">Add New</option>
-          </select>
-        </fieldset>
-        <fieldset id="transaction-description-field">
-          <legend>Description:</legend>
-          <input type="text" name="Description" id="transaction-description-input" />
-        </fieldset>
-        <fieldset id="transaction-date-field">
-          <legend>Date:</legend>
-          <input type="date" name="Transaction Date" id="transaction-date-input" />
-        </fieldset>
-        <fieldset id="transaction-budget-field">
-          <legend>Budget:</legend>
-          <p>Is this a regular expense?</p>
-          <input id="transaction-budget-yes" name="transaction-budget" type="radio" value="yes" /><label for="yes">Yes</label>
-          <input id="transaction-budget-no" name="transaction-budget" type="radio" value="no" /><label for="no">No</label>
-        </fieldset>
+        <div class="btn-container">
+          <button class="btn submit-btn" type="submit">Submit Changes</button>
+          <button class="btn cancel-btn" onclick="forceVendToggle()" type="button">Cancel</button>
+        </div>
+      </form>
 
+      <form name="transaction-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden id="transaction-form">
+        <h3 class="form-title">Transaction Form</h3>
+        <fieldset id ="add-transaction-container">
+          <div id="transaction-date-container">
+            <label for="transaction-date">Transaction Date: </label>
+            <input id="transaction-date" type="date" name="transaction_date" required autocomplete="off">
+          </div>  
+          <label id="transaction-description-container">Description: <input name="transaction_description" type="text"/></label>
+          <div id="transaction-amount-container">
+            <label for="transaction-amount">Total Transaction Amount: </label>
+            <input id="transaction-amount" type="text" name="transaction_amount" onchange="splitSum()" required autocomplete="off" placeholder="$1,990.05">
+          </div>
+          <div id="is-deposit-container">
+            <label><input name="isDeposit" value=true type="radio" required />deposit</label>
+            <label><input name="isDeposit" value=false type="radio" required />withdrawal</label>
+          </div>
+          <div id="transaction-category-container">
+            <label for="transaction-category">Category: </label>
+            <select id="transaction-category" name="transaction_category" required onchange="populateSelects()">
+              <option value="" selected disabled>-- Please choose a category --</option>
+            </select>
+            <label for="transaction-vendor">Vendor: </label>
+            <select id="transaction-vendor" name="transaction_vendor" required>
+              <option value="" selected disabled>-- Please choose a vendor or account --</option>
+            </select>
+          </div>
+          <label id="add-split-btn-container">Split transaction between multiple categories? <button id="split-transaction-btn" type="button" onclick="addTransSplit(this)">Add a split</button></label>
+          <div id="transaction-is-budget-container">
+            <p>Include this transaction in monthly budget?</p>
+            <label><input name="isBudget" type="radio" value=true required/>Yes</label>
+            <label><input name="isBudget" type="radio" value=false required/>No</label>
+          </div>
+          <div id="transaction-notes-container">
+            <label>Notes: <textarea name="transaction_notes"></textarea></label>
+          </div>
+        </fieldset>
+        <button class="btn submit-btn" type="submit">Record Transaction</button>
+        <button name="cancel-transaction" class="btn cancel-btn" onclick="pageReset(this)" type="button">Cancel</button>
       </form>
 
     </header>
+
     <main>
-      <div class="container" id="spreadsheet-container"></div>
+      <table id="spreadsheet-container"></table>
     </main>
-    <footer></footer>
+    <footer>
+
+    </footer>
     <script src="script.js"></script>
+    <!--
     <script src="https://kit.fontawesome.com/e6e61798e8.js" crossorigin="anonymous"></script>
+    -->
   </body>
 </html>
