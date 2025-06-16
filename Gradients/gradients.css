@@ -1,38 +1,35 @@
 @charset "utf-8";
 /* CSS Document */
-html {
+
+*, ::before, ::after {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
 body {
-    margin: 0;
-    padding: 0;
+    scroll-snap-type: mandatory;
 }
 
-.about {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 10vh;
-    background: white;
-    border-bottom: 3px solid black;
-}
-
-.about p {
-    text-align: left;
+section {
+    width: 100%;
+    height: 100vh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 }
 
 .one {
-    width: 100vw;
-    height: 90vh;
     background: linear-gradient(90deg, transparent, rgb(0%, 20%, 45%)),
                 linear-gradient(180deg, rgba(20%, 40%, 65%, 20%), rgb(0%, 20%, 45%));
 }
 
 .two {
-    width: 100vw;
-    height: 90vh;
     background: linear-gradient(
       217deg,
       rgb(255 0 0 / 80%),
@@ -43,35 +40,25 @@ body {
 }
 
 .three {
-    width: 100vw;
-    height: 90vh;
     background: linear-gradient(0deg, rgba(20%, 50%, 50%, 100%), transparent),
         linear-gradient(calc(180deg - 65deg), rgba(20%, 50%, 50%, 100%), rgba(80%, 100%, 80%, 100%));
 }
 
 .four {
-    width: 100vw;
-    height: 90vh;
     background: radial-gradient(farthest-side circle at 95% 5%, rgba(200, 255, 0, 1), rgba(200, 255, 0, 1) 10%, rgba(100, 155, 0, 1) 35%, rgb(0, 0, 0));
 }
 
 .five {
-    width: 100vw;
-    height: 90vh;
     background: repeating-linear-gradient(rgb(200, 200, 200), rgb(200, 200, 200) 8%, rgb(100, 100, 100) 25%, transparent 25%, transparent 35%), 
         repeating-linear-gradient(transparent, transparent 25%, rgb(0, 100, 0) 25%, rgb(200, 255, 200) 35%);
 }
 
 .six {
-    width: 100vw;
-    height: 90vh;
     background: repeating-radial-gradient(20% 45% at -20vh -50vw, rgb(200, 200, 200), rgb(200, 200, 200) 8%, rgb(100, 100, 100) 25%, transparent 25%, transparent 35%), 
         repeating-radial-gradient(20% 45% at -20vh -50vw, transparent, transparent 25%, rgb(155, 20, 20)25%, rgb(255, 0, 100) 35%);
 }
 
 .seven {
-    width: 100vw;
-    height: 90vh;
     background: linear-gradient(0deg, rgba(255, 0, 0, .8), transparent 50%),
         linear-gradient(calc(60 * 1deg), rgba(255, 150, 0, .8), transparent 50%),
         linear-gradient(calc(60 * 2deg), rgba(255, 255, 0, .8), transparent 50%),
