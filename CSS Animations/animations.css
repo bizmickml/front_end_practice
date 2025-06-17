@@ -123,7 +123,7 @@ body {
 }
 
 .challenge3 #sphere-container {
-  background: white;
+  background: magenta;
   height: 400px;
   width: 400px;
   position: absolute;
@@ -140,7 +140,6 @@ body {
   width: 400px;
   border-radius: 50%;
   border: 1px solid black;
-  animation: rotate 5s linear infinite;
 }
 
 .challenge3 .circle {
@@ -150,17 +149,28 @@ body {
   width: 400px;
   border-radius: 50%;
   background: transparent;
+  animation-duration: 20000ms;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
-.challenge3 .circle #0 {
-  rotate: 0 1 1 60deg;
-}
 
 
-
-@keyframes rotate {
+@keyframes rotate1 {
   to {
-    transform: rotate3d(0, 1, 0, 360deg);
+    transform: rotate3d(-60, 200, 0, 360deg);
+  }
+}
+
+@keyframes rotate2 {
+  to {
+    transform: rotate3d(200, -60, 0, 360deg);
+  }
+}
+
+@keyframes rotate3 {
+  to {
+    transform: rotate3d(1, 1, 1, 360deg);
   }
 }
 
