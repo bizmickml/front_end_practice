@@ -1,10 +1,14 @@
 :root {
-  --color1: rgba(246, 216, 174, 1);
-  --color2: rgba(46, 64, 87, 1);
-  --color3: rgba(8, 61, 119, 1);
-  --color4: rgba(218, 65, 103, 1);
-  --color4a: rgba(218, 65, 103, .65);
-  --color5: rgba(244, 211, 94, 1);
+  --blue: rgba(0, 118, 188, 1);
+  --turqu: rgba(0, 188, 216, 1);
+  --grey: rgba(85, 90, 91, 1);
+  --eggshell: rgba(250, 243, 221, 1);
+  --eggshell-semi-trans: rgba(250, 243, 221, .8);
+  --eggshell-trans: rgba(250, 243, 221, .65);
+  --whiteSmoke: rgba(244, 245, 245, .85);
+  --red: rgba(163, 0, 0, 1);
+  --black: rgba(30, 31, 32, 1);
+  --shadow: rgba(30, 31, 32, .65)
 }
 
 *, ::before, ::after {
@@ -19,77 +23,211 @@ html {
   font-optical-sizing: auto;
   font-weight: normal;
   font-style: normal;
-  width: 100vw;
+  width: 100%;
   overflow-x: hidden;
 }
 
-main {
-  width: 100%;
+body {
+  background-size: 100% 100vh;
+  background-image: radial-gradient(180% 110% at top right, var(--turqu) 40%, var(--blue))
 }
 
+/* ---- Start Header ---- */
+
 header {
-  background: linear-gradient(var(--color1) 93%, var(--color2));
-  padding: 1rem;
+  padding-top: 1rem;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: .5rem;
+  gap: 2rem;
+  box-shadow: 0 0 3px rgba(0, 0, 0, .5);
 }
 
-h1 {
+header h1 {
   width: 100%;
-  font-size: 2.85rem;
-  text-align: center;
+  font-size: 4rem;
+  text-align: left;
+  margin-left: 2rem;
 }
 
 #controls-container {
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: .1rem;
+  border-bottom: 2px solid var(--black)
 }
 
-button {
-  padding: .25rem 2rem;
-  background: radial-gradient(ellipse at center, transparent 50%, var(--color4));
-  border-radius: 1.5rem;
+#controls-container button {
+  background: linear-gradient(var(--eggshell-trans));
+  border-radius: 3px 3px 0 0 ;
   border: .1rem solid var(--color4);
   box-shadow: 0 0 .25rem var(--color4);
   font-family: "Inter", sans-serif;
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 1.8rem;
+  width: 100%;
+  height: 3rem;
+  transition: 100ms;
 }
 
-button:hover {
-  box-shadow: 0 0 .45rem rgba(0, 0, 0, .65);
+.btn-span.add::before {
+  content: "+ ";
+  font-size: 120%;
+  line-height: 100%;
 }
+
+.btn-span.hide::before {
+  content: "- ";
+  font-size: 120%;
+  line-height: 100%;
+}
+
+#controls-container button:hover {
+  transform: scaleY(1.1);
+  translate: 0 -.3rem;
+  background: var(--eggshell);
+  border-radius: .8rem .8rem 0 0;
+  box-shadow: 0 0 3px var(--shadow);
+}
+
+#controls-container button.danger:hover {
+  background: var(--red);
+  color: var(--eggshell)
+}
+
+#controls-container button.danger:hover::after {
+  content: " !?"
+}
+
+/* ---- End Header ---- */
+/* ---- Start Generic Forms ---- */
 
 form {
-  background: rgba(255, 255, 255, .65);
+  background: var(--whiteSmoke);
   border-radius: 1rem;
-  padding: 1rem;
+  padding: 1.5rem;
   margin: 1rem;
+  font-size: 2rem;
 }
 
 fieldset {
   border: none;
 }
 
-legend {
-  font-weight: 500;
+ul {
+  list-style: none;
+  margin: 1rem 0 1rem 1rem;
 }
 
-h3 {
+li {
+  margin-left: 3rem;
+}
+
+input, 
+select, 
+textarea {
+  background: white;
+  border: 1px solid var(--black);
+  border-radius: 2px;
+  font-size: 1.8rem;
+  vertical-align: middle;
+}
+
+input, select, textarea, fieldset span, label {
+  margin: .8rem 0 .8rem 0;
+  vertical-align: middle;
+  padding: .25rem;
+}
+
+label, fieldset span {
+  line-height: 2.8rem;
+}
+
+input[type="radio"] {
+  appearance: none;
+  height: 1.6rem;
+  width: 1.6rem;
+  line-height: 2rem;
+  background: white;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid var(--black);
+  margin: 0 1rem .3rem 5rem;
+  transition: 100ms;
+}
+
+input[type="radio"]:first-of-type {
+  margin-left: 1rem;
+}
+
+input[type="radio"]:checked {
+  border: .5rem solid var(--turqu);
+}
+
+form h3 {
   text-align: center;
   margin-bottom: 2rem;
   text-decoration: underline;
+  font-size: 1.8rem;
 }
 
 .btn-container { 
   margin: 2rem 1rem 0;
   display: flex;
   gap: 1rem;
-  justify-content: center;
+  justify-content: space-evenly;
+  border-top: 1px solid var(--black);
+  padding-top: 1.5rem;
 }
+
+.btn-container button {
+  padding: .5rem 2rem;
+  font-size: 1.8rem;
+  background: var(--turqu);
+  border: 1px solid var(--black);
+  border-radius: 4px;
+  box-shadow: -1px 1px 2px var(--shadow);
+  transition: 100ms;
+}
+
+.btn-container button:hover {
+  transform: scale(1.01);
+  translate: 0 -2px;
+  box-shadow: -1px 1px 5px var(--shadow);
+}
+
+/* ---- End Generic Forms ---- */
+/* ---- Start Transaction Form ---- */
+
+textarea {
+  font-size: 1.8rem;
+  padding: .3rem;
+  height: 6rem;
+  width: 50rem;
+}
+
+#split-transaction-btn {
+  font-size: 1.8rem;
+  padding: .25rem 1rem .25rem 1rem;
+  margin: .8rem 0 .8rem 1rem;
+  background: var(--turqu);
+  border-radius: 5px;
+  color: var(--black);
+  border: none;
+  box-shadow: 0 0 2px var(--black);
+  transition: 100ms;
+}
+
+#split-transaction-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 1px 1px 3px var(--black)
+}
+
+#transaction-notes-container {
+  margin-top: 1rem;
+}
+
+/* ---- End Transaction Form ---- */

@@ -68,7 +68,6 @@ function displayEntries() {
 
       //Set booleans
     for (const [key, value] of Object.entries(entryObj)) {
-      console.log(`key: ${key}, value: ${value}`)
 
       if (key.includes("isBudget")) {
         isBudget = (value === "true" ? true : false)
@@ -556,7 +555,7 @@ function pageReset(element) {
   let form
 
   if (element.name === "cancel-transaction" ) {
-    form = element.parentNode
+    form = element.parentNode.parentNode
   } else {
     form = element
   }
@@ -578,23 +577,26 @@ function pageReset(element) {
 
 function getFormEntries(form) {
   const newDataArr = Array.from(new FormData(form).entries())
-
-  if (form.name.includes('transaction') && isSplitTransaction(newDataArr)) {
-    if (isSplitBalanced()) {
-      handleFormData(newDataArr, form.name)
-      pageReset(form)
-      displayEntries()
-
-    } else {
-      alert("The sum of the Split Amounts must equal the Total Transaction Amount")
-    }
+  if (newDataArr.length === 0) {
+    pageReset(form)
 
   } else {
-    handleFormData(newDataArr, form.name)
-    pageReset(form)
-    populateSelects()
-    displayEntries()
+    if (form.name.includes('transaction') && isSplitTransaction(newDataArr)) {
+      if (isSplitBalanced()) {
+        handleFormData(newDataArr, form.name)
+        pageReset(form)
+        displayEntries()
 
+      } else {
+        alert("The sum of the Split Amounts must equal the Total Transaction Amount")
+      }
+
+    } else {
+      handleFormData(newDataArr, form.name)
+      pageReset(form)
+      populateSelects()
+      displayEntries()
+    }
   }
 }
 
@@ -806,18 +808,18 @@ function delSplit(el) {
 function addTransSplit(el) {
   addElementIndex++
 
-  if (!(el.parentNode.parentNode.id.includes("split")) && el.parentNode.parentNode.children[4].children.length < 5) {
+  if (!(el.parentNode.id.includes("split")) && el.parentNode.children[4].children.length < 5) {
 
-    el.parentNode.parentNode.children[4].insertAdjacentHTML("beforeend", `      
+    el.parentNode.children[4].insertAdjacentHTML("beforeend", `      
       <label id="first-split-amount-container">Split Amount: 
         <input type="text" name="transaction_split_amount_${addElementIndex - 1}" required autocomplete="off" onchange="splitSum()" placeholder="$45.97"/>
       </label>
     `)
-    el.parentNode.insertAdjacentHTML("afterend", `<span id="rem-split-span"></span>`)
+    el.insertAdjacentHTML("afterend", `<span id="rem-split-span"></span>`)
 
   }
 
-  el.parentNode.insertAdjacentHTML("beforebegin", `
+  el.parentNode.children[4].insertAdjacentHTML("afterend", `
     <div id="split-category-container-${addElementIndex}">
       <label for="transaction-split-category-${addElementIndex}">Category: </label>
       <select id="transaction-split-category-${addElementIndex}" name="transaction_split_category_${addElementIndex}" required onchange="populateSelects()">
@@ -859,7 +861,16 @@ function toggleTransactionForm(element) {
   !categoryForm.hidden && forceCatToggle();
   !vendorForm.hidden && forceVendToggle();
   transactionForm.hidden = (transactionForm.hidden ? false : true)
-  element.textContent = (transactionForm.hidden ? "Add a transaction" : "Hide transaction form")
+  element.children[0].textContent = (transactionForm.hidden ? "Add a transaction" : "Hide transaction form")
+
+  if (!transactionForm.hidden) {
+    element.children[0].classList.add("hide")
+    element.children[0].classList.remove("add")
+  } else {
+    element.children[0].classList.add("add")
+    element.children[0].classList.remove("hide")
+  }
+
   !transactionForm.hidden && populateSelects();
   addAmountListener()
 }

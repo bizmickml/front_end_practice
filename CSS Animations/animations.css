@@ -1,9 +1,3 @@
-/* -----  This is where I'll keep variables if I have any  
-:root {
-}
------- */
-
-/* -----  This setting zeros out the page so I can control all the margins and padding manually ------ */
 *, 
 ::before, 
 ::after {
@@ -12,29 +6,42 @@
   box-sizing: border-box;
 }
 
-/* ------ This setting sets the standard browser font size to 10px to make the math of working with rem easier ------ */
 html {
   font-size: 62.5%;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 
-/* -----  This setting makes the standard width of my page equal to the entire viewidth 
-          and gets rid of the horizontal scroll bar (sets the width of the page "inside of" the vertical scroll bar ---- */
 body {
   width: 100vw;
   overflow-x: hidden;
 }
 
-/* ----   These will be my "sections" to contain each challenge 
-          position relative is imperative to allow for child divs to overlap using positiong absolute --------- */
 .section {
   position: relative;
   height: 100vh;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  scroll-snap-align: start;
 }
 
+h1 {
+  font-size: 12rem;
+  position: absolute;
+  top: 0;
+}
 
-/* -----  Challenge #1 
-          color changing background  --------- */
+p {
+  font-size: 4rem;
+  position: absolute;
+  top: 16rem;
+}
+
+/* -----  Start Challenge #1 - flashing background  --------- */
 
 :root {
   --backgroundColor1: rgb(191, 225, 0);
@@ -67,14 +74,14 @@ body {
   }
 }
 
-
-/* -----  Challenge #2 
-          scrolling text --------------- */
+/* -----  End Challenge #1 - flashing background  --------- */
+/* -----  Start Challenge #2 - scrolling text --------------- */
 
 :root {
   --text-width: 350px;
   --scroll-time: 6s;
 }
+
 .challenge2 div {
   position: absolute;
   display: block;
@@ -85,8 +92,6 @@ body {
   animation: scroll var(--scroll-time) linear infinite;
 }
 
-        /* ---- the animation delay calculation below is the complete animation time divided by the number of elements 
-        to acheive a uniform space between each text element. -------- */
 .challenge2 div:first-of-type {
   animation-delay: calc(var(--scroll-time) / 5);
 }
@@ -107,39 +112,43 @@ body {
   animation-delay: calc(calc(var(--scroll-time) / 5) * 5);
 }
 
-        /* ---- NOTE: the animation is a pre-determined width of pixels so that
-        on any screen width, it looks the same ---------- */
 @keyframes scroll {
+  /* ---- NOTE: the animation is a pre-determined width of pixels so that on any screen width, it looks the same ---------- */
   100% {
     transform: translate(calc(-2560px - var(--text-width)));
   }
 }
 
-/* -----  Challenge #3
-          rotating sphere with text ------- */
+/* -----  End Challenge #2 - scrolling text --------------- */
+/* -----  Start Challenge #3 - rotating sphere with text ------- */
 
 .challenge3 {
   background: rgb(5, 5, 201);
 }
 
+.challenge3 h1 {
+  position: absolute;
+  top: 0;
+}
+
 .challenge3 #sphere-container {
-  background: magenta;
+  background: rgb(238, 223, 1);
   height: 400px;
   width: 400px;
   position: absolute;
   top: calc(50vh - 150px);
   left: calc(50vw - 150px);
   border-radius: 50%;
-  overflow: hidden;
+  border: 4px solid black;
 }
 
 .challenge3 .sphere {
   position: absolute;
-  background: transparent;
   height: 400px;
   width: 400px;
   border-radius: 50%;
-  border: 1px solid black;
+  animation: rotateSphere 15000ms linear infinite;
+  transform-style: preserve-3d;
 }
 
 .challenge3 .circle {
@@ -148,29 +157,32 @@ body {
   height: 400px;
   width: 400px;
   border-radius: 50%;
-  background: transparent;
-  animation-duration: 20000ms;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  background: rgb(238, 223, 1);
 }
 
+.challenge3 .light {
+  position: absolute;
+  top: 75%;
+  left: -1%;
+  height: 200px;
+  width: 350px;
+  border-radius: 50%;
+  background: rgba(50, 50, 50, .8);
+  box-shadow: -15px 50px 100px rgb(234, 239, 166);
+  transform: rotateX(60deg) rotateZ(5deg);
+  transform-style: preserve-3d;
+}
 
-
-@keyframes rotate1 {
-  to {
-    transform: rotate3d(-60, 200, 0, 360deg);
+@keyframes rotateSphere {
+  30% {
+    transform: rotateX(100deg) rotateY(100deg) rotateZ(0deg);
+  }
+  70% {
+    transform: rotateX(-180deg) rotateY(-180deg) rotateZ(100deg);
+  }
+  100% {
+    transform: rotateX(-360deg) rotateY(-360deg) rotateZ(-360deg);
   }
 }
 
-@keyframes rotate2 {
-  to {
-    transform: rotate3d(200, -60, 0, 360deg);
-  }
-}
-
-@keyframes rotate3 {
-  to {
-    transform: rotate3d(1, 1, 1, 360deg);
-  }
-}
-
+/* -----  End Challenge #3 - rotating sphere with text ------- */

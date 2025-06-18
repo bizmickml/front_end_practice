@@ -1,20 +1,21 @@
 const sphere = document.getElementById("sphere");
-const qty = 10;
-let delay = 0;
-let animationName;
+const circles = [...sphere.children]
+let degreeX = 30;
+let degreeY = 30;
+let degreeZ = 30;
 
-for (let num = 0; num < qty; num++) {
-  const ring = document.createElement("div");
-  sphere.appendChild(ring);
-  delay += (20000 / qty)
+circles.forEach((el) => {
+  if (el.className.includes("x-axis")) {
+    el.style.transform = `rotate3D(1, 0, 0, ${degreeX}deg)`;
+    degreeX = degreeX + 30;
 
-  if (num % 2 === 0) {
-    animationName = "rotate1"
-  } else {
-    animationName = "rotate2"
+  } else if (el.className.includes("y-axis")) {
+    el.style.transform = `rotate3D(0, 1, 0, ${degreeY}deg)`;
+    degreeY = degreeY + 30;
+
+  } else if (el.className.includes("z-axis")) {
+    el.style.transform = `rotate3D(0, 0, 1, ${degreeZ}deg)`;
+    degreeZ = degreeZ + 30;
+
   }
-
-  ring.classList.add(`circle`);
-  ring.style.animationName = `${animationName}`;
-  ring.style.animationDelay = `${delay}ms`
-}
+})

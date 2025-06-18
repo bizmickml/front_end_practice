@@ -23,6 +23,20 @@
         <p>Enter your name below to get started.</p>
       </section>
 
+      <section hidden id="controls-container">
+        <button id="transaction-show-hide-btn" type="button" onclick="toggleTransactionForm(this)">
+          <span id="add-btn-span" class="btn-span add">Add a Transaction</span>
+        </button>
+        <button id="category-form-show-hide-btn" type="button" onclick="toggleCatForm(this)">
+          <span class="btn-span edit">Edit Categories</span>
+        </button>
+        <button id="vendor-form-show-hide-btn" type="button" onclick="toggleVendorForm(this)">Edit Vendors</button>
+        <button id="edit-name-button" type="button" onclick="toggleUserNameForm()">Change/Edit Name</button>
+        <button class="btn danger" id="clear-data-btn" type="button" onclick="clearAllData()">
+          <span class="btn-span">Clear ALL Data</span>
+        </button>
+      </section>
+
       <form action="javascript:;" onsubmit="getFormEntries(this)" id="user-name-form" name="user-name-form">
         <fieldset>
           <h3>User Name</h3>
@@ -35,14 +49,6 @@
         </fieldset>
       </form>
 
-      <section hidden id="controls-container">
-        <button id="transaction-show-hide-btn" type="button" onclick="toggleTransactionForm(this)">Add a Transaction</button>
-        <button id="category-form-show-hide-btn" type="button" onclick="toggleCatForm(this)">Edit Categories</button>
-        <button id="vendor-form-show-hide-btn" type="button" onclick="toggleVendorForm(this)">Edit Vendors</button>
-        <button id="edit-name-button" type="button" onclick="toggleUserNameForm()">Change/Edit Name</button>
-        <button id="clear-data-btn" type="button" onclick="clearAllData()">Clear ALL Data</button>
-      </section>
-
       <form name="category-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden id="category-form">
         <h3 class="form-title">Category Form</h3>
         <fieldset id="category-fieldset">
@@ -53,8 +59,10 @@
           </select>
           <div id="category-container" name="category-container"></div>
         </fieldset>
-        <button class="btn submit-btn" type="submit">Submit Changes</button>
-        <button class="btn cancel-btn" onclick="forceCatToggle()" type="button">Cancel</button>
+        <div class="btn-container">
+          <button class="btn submit-btn" type="submit">Submit Changes</button>
+          <button class="btn cancel-btn" onclick="forceCatToggle()" type="button">Cancel</button>
+        </div>
       </form>
 
       <form name="vendor-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden id="vendor-form">
@@ -73,21 +81,19 @@
         </div>
       </form>
 
-      <form name="transaction-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden id="transaction-form">
+      <form name="transaction-form" action="javascript:;" hidden onsubmit="getFormEntries(this)" id="transaction-form">
         <h3 class="form-title">Transaction Form</h3>
         <fieldset id ="add-transaction-container">
-          <div id="transaction-date-container">
-            <label for="transaction-date">Transaction Date: </label>
-            <input id="transaction-date" type="date" name="transaction_date" required autocomplete="off">
-          </div>  
+          <label for="transaction-date">Transaction Date: </label>
+          <input id="transaction-date" type="date" name="transaction_date" required autocomplete="off">
           <label id="transaction-description-container">Description: <input name="transaction_description" type="text"/></label>
           <div id="transaction-amount-container">
             <label for="transaction-amount">Total Transaction Amount: </label>
             <input id="transaction-amount" type="text" name="transaction_amount" onchange="splitSum()" required autocomplete="off" placeholder="$1,990.05">
-          </div>
-          <div id="is-deposit-container">
-            <label><input name="isDeposit" value=true type="radio" required />deposit</label>
-            <label><input name="isDeposit" value=false type="radio" required />withdrawal</label>
+            <span id="is-deposit-container">
+              <label><input name="isDeposit" value=true type="radio" required />Deposit</label>
+              <label><input name="isDeposit" value=false type="radio" required />Withdrawal</label>
+            </span>
           </div>
           <div id="transaction-category-container">
             <label for="transaction-category">Category: </label>
@@ -99,9 +105,10 @@
               <option value="" selected disabled>-- Please choose a vendor or account --</option>
             </select>
           </div>
-          <label id="add-split-btn-container">Split transaction between multiple categories? <button id="split-transaction-btn" type="button" onclick="addTransSplit(this)">Add a split</button></label>
+          <span id="add-split-btn-container">Split transaction between multiple categories?</span>
+          <button id="split-transaction-btn" type="button" onclick="addTransSplit(this)">Add a split</button>
           <div id="transaction-is-budget-container">
-            <p>Include this transaction in monthly budget?</p>
+            <span>Include this transaction in monthly budget?</span>
             <label><input name="isBudget" type="radio" value=true required/>Yes</label>
             <label><input name="isBudget" type="radio" value=false required/>No</label>
           </div>
@@ -109,10 +116,11 @@
             <label>Notes: <textarea name="transaction_notes"></textarea></label>
           </div>
         </fieldset>
-        <button class="btn submit-btn" type="submit">Record Transaction</button>
-        <button name="cancel-transaction" class="btn cancel-btn" onclick="pageReset(this)" type="button">Cancel</button>
+        <div class="btn-container">
+          <button class="btn submit-btn" type="submit">Record Transaction</button>
+          <button name="cancel-transaction" class="btn cancel-btn" onclick="pageReset(this)" type="button">Cancel</button>
+        </div>
       </form>
-
     </header>
 
     <main>
