@@ -9,6 +9,7 @@ const vendorContainer = document.getElementById('vendor-container');
 const categoryContainer = document.getElementById('category-container');
 const transactionForm = document.getElementById('transaction-form');
 const transactionContainer = document.getElementById('add-transaction-container');
+const splitTransMsg = document.getElementById("split-btn-message");
 const spreadsheetCont = document.getElementById('spreadsheet-container');
 
 const idRegEx = /[.\s,&%$)('"_]/g;
@@ -51,6 +52,8 @@ let addElementIndex = 0;
 /** --------  START User Entry Handling -------- */
 
 function displayEntries() {
+  spreadsheetCont.innerHTML = "";
+  displayTableHead();
   let userEntries = getUserEntries()
   
   userEntries.forEach((entryObj, index) => {
@@ -85,7 +88,7 @@ function displayEntries() {
       //Add split rows & get split data
     if (isSplit) {
       let splitCount = 0
-      let splitHTML = `<tr class="splitRow"></tr>`
+      let splitHTML = `<tr class="split-row"></tr>`
 
       for (const [key, value] of Object.entries(entryObj)) {
         if (key.includes("split") && key.includes("amount")) {
@@ -110,7 +113,7 @@ function displayEntries() {
         if (!(key.includes("isDeposit")) && !(key.includes("isBudget"))) {
         row.innerHTML += `
           <td>
-            <span id="${value.replace(idRegEx, "-")}-${index}" class="table-data ${value.includes("$") ? "currency" : null}">${value}</span>
+            <span id="${value.replace(idRegEx, "-")}-${index}" class="table-data ${value.includes("$") ? "currency" : ""}">${value}</span>
           </td>
         `;
         }
@@ -119,7 +122,7 @@ function displayEntries() {
         if (key.includes("date") || key.includes("description") || key.includes("amount") && !(key.includes("split"))) {
           row.innerHTML += `
             <td>
-              <span id="${value.replace(idRegEx, "-")}-${index}" class="table-data ${value.includes("$") ? "currency" : null}">${value}</span>
+              <span id="${value.replace(idRegEx, "-")}-${index}" class="table-data ${value.includes("$") ? "currency" : ""}">${value}</span>
             </td>
           `;
         }
@@ -127,32 +130,32 @@ function displayEntries() {
     }
 
       //Display split data
-    if (isSplit) {row.innerHTML += `<td colspan="2"><span class="splitCategory">Split</span></td>`}
+    if (isSplit) {row.innerHTML += `<td colspan="2"><span class="split-category">Split</span></td>`}
 
     for (let i = 0; i < splitRows.length; i++) {
       if (i > 0) {splitRows[i].innerHTML += `<td class="placeholder"></td><td class="placeholder"></td>`}
     }
 
     splitAmounts.forEach((val, index) => {
-      splitRows[index + 1].innerHTML += `<td><span class="splitValue">${val}</span></td>`
+      splitRows[index + 1].innerHTML += `<td><span class="split-value currency">${val}</span></td>`
     })
 
     splitCats.forEach((val, index) => {
-      splitRows[index + 1].innerHTML += `<td><span class="splitValue">${val}</span></td>`
+      splitRows[index + 1].innerHTML += `<td><span class="split-value">${val}</span></td>`
     })
 
     splitVends.forEach((val, index) => {
-      splitRows[index + 1].innerHTML += `<td><span class="splitValue">${val}</span></td>`
+      splitRows[index + 1].innerHTML += `<td><span class="split-value">${val}</span></td>`
     })
 
     splitRows[0].innerHTML += `<td><span>${splitNote}</span></td>`;
 
       //Format Deposits
     if (isDeposit) {
-      const amounts = container.getElementsByClassName("currency");
-
+      const amounts = [...container.getElementsByClassName("currency")];
+      
       amounts.forEach((el) => {
-        el.className += "deposit" 
+        el.classList.add("deposit") 
       })
     }
 
@@ -693,7 +696,8 @@ function populateSelects() {
           })
 
         } else {
-          el.innerHTML = `<option value="" selected>No vendors in this category</option>`
+          el.innerHTML = `<option value="" selected>No vendors in this category</option>`;
+          el.required = false;
         }
 
       }
@@ -776,11 +780,11 @@ function stringNumToInt(strNum) {return((strNum.replace(numRegEx, "") * 100))}
 
 function splitSum() {
   const transInput = document.getElementById('transaction-amount')
-  const remAmntSpn = document.getElementById('rem-split-span')
+  const addTransCont = document.getElementById("add-transaction-container");
 
-  if (remAmntSpn && !transInput.value) {remAmntSpn.textContent = ""};
+  if (addTransCont.children.length < 10) {
 
-  if (document.getElementById('rem-split-span') && transInput.value) {
+  } else if (addTransCont.children.length > 9 && transInput.value) {
     let transAmount = stringNumToInt(transInput.value)
     let remAmount = transAmount
     
@@ -790,7 +794,7 @@ function splitSum() {
       }
     })
 
-    remAmntSpn.textContent = (remAmount === 0 ? "Split is balanced" : `Split amount remaining: $${formatNum(remAmount)}`);
+    splitTransMsg.textContent = (remAmount === 0 ? "Split is balanced" : `Split amount remaining: $${formatNum(remAmount)}`);
 
   }
 }
@@ -798,7 +802,7 @@ function splitSum() {
 function delSplit(el) {
   if (el.parentNode.parentNode.children.length === 10) {
     document.getElementById('split-transaction-btn').textContent = "Add a split"
-    document.getElementById('rem-split-span').remove()
+    splitTransMsg.textContent = "Split transaction between multiple categories?"
     document.getElementById("first-split-amount-container").remove()
   }
   
@@ -808,14 +812,13 @@ function delSplit(el) {
 function addTransSplit(el) {
   addElementIndex++
 
-  if (!(el.parentNode.id.includes("split")) && el.parentNode.children[4].children.length < 5) {
+  if (el.parentNode.children[4].children.length < 5) {
 
     el.parentNode.children[4].insertAdjacentHTML("beforeend", `      
       <label id="first-split-amount-container">Split Amount: 
         <input type="text" name="transaction_split_amount_${addElementIndex - 1}" required autocomplete="off" onchange="splitSum()" placeholder="$45.97"/>
       </label>
     `)
-    el.insertAdjacentHTML("afterend", `<span id="rem-split-span"></span>`)
 
   }
 
@@ -832,7 +835,7 @@ function addTransSplit(el) {
       <label>Split Amount: 
         <input type="text" name="transaction_split_amount_${addElementIndex}" required autocomplete="off" onchange="splitSum()" placeholder="$45.97" />
       </label>
-      <button class="btn del-btn" onclick="delSplit(this)">Delete</button>
+      <button class="btn del-btn" onclick="delSplit(this)">X</button>
     </div>
   `);
   
@@ -860,6 +863,7 @@ function forceTransToggle() {
 function toggleTransactionForm(element) {
   !categoryForm.hidden && forceCatToggle();
   !vendorForm.hidden && forceVendToggle();
+  !userNameForm.hidden && toggleUserNameForm();
   transactionForm.hidden = (transactionForm.hidden ? false : true)
   element.children[0].textContent = (transactionForm.hidden ? "Add a transaction" : "Hide transaction form")
 
@@ -887,7 +891,7 @@ function dispMorAddVend(button) {
       <select id="add-vendor-cat-${addElementIndex}" name="addVendor-cat" value="">
         <option value="" disabled selected>-- Please choose an existing category --</option>
       </select>
-      <button class="btn del-btn" type="button" onclick="delParNode(this)">Delete</button>
+      <button class="btn del-btn" type="button" onclick="delParNode(this)">X</button>
     </div>
   `)
   populateSelects()
@@ -901,11 +905,11 @@ function displayAddVendors(cont) {
       <select id="add-vendor-cat-${addElementIndex}" name="addVendor-cat" value="">
         <option value="" disabled selected>-- Please choose an existing category --</option>
       </select>
-      <button class="btn del-btn" type="button" onclick="delParNode(this)">Delete</button>
+      <button class="btn del-btn" type="button" onclick="delParNode(this)">X</button>
     </div>
   `;
 
-  cont.innerHTML += addHTML + `<button id="add-vendor-btn" type="button" onclick="dispMorAddVend(this)" >Add another vendor</button>`
+  cont.innerHTML += addHTML + `<button id="add-vendor-btn" type="button" class="btn add-btn" onclick="dispMorAddVend(this)" >Add another vendor</button>`
 }
 
 function displayVendors(prop) {
@@ -938,7 +942,7 @@ function displayVendors(prop) {
           <label>Existing vendor name: <input name="edit_vendor-${name}" value="${name}"></label>
           <label for="edit-vendor-${vendIndex}-cat-${catIndex}">Change existing category? </label>
           <select id="edit-vendor-${vendIndex}-cat-${catIndex}" name="edit_vendor_cat-${category}"><option value="" disabled>-- Please choose an existing category --</option></select>
-          <button class="btn del-btn" type="button" onclick="delVend(this)">Delete</button>
+          <button class="btn del-btn" type="button" onclick="delVend(this)">X</button>
         </li>
       `;
 
@@ -981,6 +985,8 @@ function forceVendToggle() {document.getElementById('vendor-form-show-hide-btn')
 
 function toggleVendorForm(element) {
   !categoryForm.hidden && forceCatToggle()
+  !transactionForm.hidden && forceTransToggle();
+  !userNameForm.hidden && toggleUserNameForm();
   vendorForm.hidden = (vendorForm.hidden ? false : true)
   element.textContent = (vendorForm.hidden ? "Edit Vendors" : "Hide Vendor Form")
   !vendorForm.hidden && vendSelectControl()
@@ -1002,7 +1008,7 @@ function displayCats(prop) {
           New category name: 
           <input name="addCategory" type="text" placeholder="e.g. Gifts" required />
         </label>
-        <button class="btn del-btn" type="button" onclick="delParNode(this)">Delete</button>
+        <button class="btn del-btn" type="button" onclick="delParNode(this)">X</button>
       </div>
     `;
 
@@ -1020,7 +1026,7 @@ function displayCats(prop) {
         <label>Edit Category [${dataObj.category}]: 
           <input name="edit_cat-${dataObj.category}" value="${dataObj.category}" required>
         </label>
-        <button class="btn del-btn" type="button" onclick="delCat(this)">Delete</button>
+        <button class="btn del-btn" type="button" onclick="delCat(this)">X</button>
       </li>
     `;
     const showHTML = `<li>${dataObj.category}</li>`
@@ -1057,6 +1063,8 @@ function forceCatToggle() {document.getElementById('category-form-show-hide-btn'
 
 function toggleCatForm(element) {
   !vendorForm.hidden && forceVendToggle()
+  !userNameForm.hidden && toggleUserNameForm();
+  !transactionForm.hidden && forceTransToggle();
   categoryForm.hidden = (categoryForm.hidden ? false : true)
   element.textContent = (categoryForm.hidden ? "Edit Categories" : "Hide Category Form")
   !categoryForm.hidden && catSelectControl()
@@ -1069,6 +1077,7 @@ function toggleUserNameForm() {
   clearUserNameBtn.hidden = false;
   !categoryForm.hidden && forceCatToggle();
   !vendorForm.hidden && forceVendToggle();
+  !transactionForm.hidden && forceTransToggle();
 
   ifUserToggle();
 }
@@ -1088,7 +1097,7 @@ window.onload = () => {
     ifUserToggle()
   } 
 
-  if (isUserEntry()) {displayTableHead(); displayEntries()}
+  if (isUserEntry()) {displayEntries()}
 }
 
 /** --------  END Display & Page Controls -------- */

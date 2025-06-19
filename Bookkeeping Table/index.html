@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Permanent+Marker&display=swap" rel="stylesheet">  
   </head>
   <body>
 
     <header>
-      <div hidden id="user-msg-container"></div>
       <h1 id="title-line"><span id="user-name-span"></span> Personal Accounting Record</h1>
 
       <section id="welcome-msg">
@@ -30,8 +29,10 @@
         <button id="category-form-show-hide-btn" type="button" onclick="toggleCatForm(this)">
           <span class="btn-span edit">Edit Categories</span>
         </button>
-        <button id="vendor-form-show-hide-btn" type="button" onclick="toggleVendorForm(this)">Edit Vendors</button>
-        <button id="edit-name-button" type="button" onclick="toggleUserNameForm()">Change/Edit Name</button>
+        <button id="vendor-form-show-hide-btn" type="button" onclick="toggleVendorForm(this)">
+          <span>Edit Vendors</span></button>
+        <button id="edit-name-button" type="button" onclick="toggleUserNameForm()">
+          <span>Change/Edit Name</span></button>
         <button class="btn danger" id="clear-data-btn" type="button" onclick="clearAllData()">
           <span class="btn-span">Clear ALL Data</span>
         </button>
@@ -105,8 +106,8 @@
               <option value="" selected disabled>-- Please choose a vendor or account --</option>
             </select>
           </div>
-          <span id="add-split-btn-container">Split transaction between multiple categories?</span>
-          <button id="split-transaction-btn" type="button" onclick="addTransSplit(this)">Add a split</button>
+          <span id="split-btn-message">Split transaction between multiple categories?</span>
+          <button id="split-transaction-btn" class="btn split-btn" type="button" onclick="addTransSplit(this)">Add a split</button>
           <div id="transaction-is-budget-container">
             <span>Include this transaction in monthly budget?</span>
             <label><input name="isBudget" type="radio" value=true required/>Yes</label>
@@ -124,7 +125,10 @@
     </header>
 
     <main>
-      <table id="spreadsheet-container"></table>
+      <div hidden id="user-msg-container"></div>
+      <div id="table-container">
+        <table id="spreadsheet-container"></table>
+      </div>
     </main>
     <footer>
 
