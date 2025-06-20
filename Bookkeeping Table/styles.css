@@ -32,7 +32,21 @@ body {
   background-size: 100vw 100vh;
   background-image: radial-gradient(180% 110% at top right, var(--turqu) 40%, var(--blue));
 }
+/* ---- Start welcome msg ---- */
 
+#welcome-msg {
+  padding: 2rem;
+}
+
+#welcome-msg h2 {
+  font-size: 3rem;
+}
+
+#welcome-msg p {
+  font-size: 1.8rem;
+}
+
+/* ---- End welcome msg ---- */
 /* ---- Start Header ---- */
 
 header {
@@ -268,6 +282,7 @@ textarea {
   border-radius: 5px;
   background: var(--eggshell-semi-trans);
   padding: 2rem;
+  box-shadow: 0 0 5px var(--shadow);
 }
 
 table {
@@ -347,7 +362,6 @@ td[colspan="2"] {
 .dismiss-btn {
   padding: .5rem 2rem;
   margin-top: 1.2rem;
-  margin-left: 90%;
   font-size: 1.5rem;
   font-weight: bold;
   background: var(--red);

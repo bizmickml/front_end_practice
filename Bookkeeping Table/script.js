@@ -30,28 +30,13 @@ const testUserData = [
   }
 ];
 const headings = ["Date", "Description", "Amount", "Category", "Vendor", "Notes", "Budget"]
-const testUserEntry = [
-  {
-    date: '2025-05-23',
-    description: "description",
-    amount: "50",
-    isDeposit: "false",
-    category: 'Food',
-    vendor: 'Grocery Store',
-    amount_split: '$25',
-    category_split_1: 'Food',
-    vendor_split_1: 'Grocery Store',
-    amount_split_1: '$25',
-    isBudget: "false",
-    notes: "notes"
-  }
-]
 let userMsg = []
 let addElementIndex = 0;
-
+console.log(getUserData())
 /** --------  START User Entry Handling -------- */
 
 function displayEntries() {
+  document.getElementById("table-container").hidden = false;
   spreadsheetCont.innerHTML = "";
   displayTableHead();
   let userEntries = getUserEntries()
@@ -249,6 +234,25 @@ function getUserCats(data) {
   return(cats)
 }
 
+function sortUserVends(vendArr) {
+  let vendorArray = [...vendArr]
+  
+  vendorArray.forEach((vend) => {
+    vend = vend.toUpperCase()
+  })
+
+  console.log(vendorArray)
+
+  vendorArray.sort();
+
+  vendorArray.map((vend) => {
+    vend.slice(0, 1) + vend.slice(1).toLowerCase();
+  })
+  
+  console.log(vendorArray)
+  return vendorArray
+}
+
 function sortUserData(data) {
   //data should be an array of objects
 
@@ -257,6 +261,7 @@ function sortUserData(data) {
 
   newData.map((dataObj, index) => {
     dataObj.id = index
+    dataObj.vendor = [...sortUserVends(dataObj.vendor)]
   })
 
   return(newData)
@@ -420,8 +425,7 @@ function editVendorData(newDataArr) {
 }
 
 function addVendorData(newDataArr) {
-  let existData = getUserData()
-  let newData = []
+  let existData = [...getUserData()]
 
   newDataArr.forEach((entryArr, index) => {
     let entryType = entryArr[0]
@@ -433,34 +437,30 @@ function addVendorData(newDataArr) {
       if (dataExists(newVendor, "vend")) {
         userMsg.push(`The vendor: [${newVendor}] already exists. Please choose another vendor or account name.`)
       } else {
-        existData.forEach((dataObj) => {
+        existData.map((dataObj) => {
           if (dataObj.category === newVendCat) {
-            let newDataObj = {...dataObj, vendor: [...dataObj.vendor, newVendor]}
             userMsg.push(`The vendor: [${newVendor}] was added to the category: [${newVendCat}]`)
-            newData.push(newDataObj)
-          } else {
-            newData.push(dataObj)
-          }
+            dataObj.vendor = [...dataObj.vendor, newVendor]
+          } 
         })
       }
     }
   })
   
-  return newData
+  return existData
 }
 
 function processVendData(newDataArr) {
-  const entryType = newDataArr[0][0]
-  let newData
+  const entryType = newDataArr[0][0];
+  let newData;
 
   if (entryType.includes("addVendor")) {
     newData = addVendorData(newDataArr)
   } else if (entryType.includes("edit_vendor")) {
     newData = editVendorData(newDataArr)
-  }
-  console.log(newData)
+  };
 
-  saveUserData(newData)
+  saveUserData(newData);
 }
 
 function addCatData(arr) {
@@ -555,7 +555,7 @@ function handleFormData(dataArr, formName) {
 }
 
 function pageReset(element) {
-  let form
+  let form;
 
   if (element.name === "cancel-transaction" ) {
     form = element.parentNode.parentNode
@@ -580,6 +580,7 @@ function pageReset(element) {
 
 function getFormEntries(form) {
   const newDataArr = Array.from(new FormData(form).entries())
+
   if (newDataArr.length === 0) {
     pageReset(form)
 
@@ -918,8 +919,9 @@ function displayVendors(prop) {
   vendorContainer.innerHTML = "";
   vendorContainer.innerHTML += `<h4>Existing Vendors & Accounts:</h4><ul id="exist-vendors"></ul>`;
   const vendList = document.getElementById('exist-vendors');
+  const userData = [...getUserData()];
   
-  getUserData().forEach((dataObj, catIndex) => {
+  userData.forEach((dataObj, catIndex) => {
     // displays the categories
 
     let category = dataObj.category
