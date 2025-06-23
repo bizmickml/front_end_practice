@@ -32,6 +32,7 @@ body {
   background-size: 100vw 100vh;
   background-image: radial-gradient(180% 110% at top right, var(--turqu) 40%, var(--blue));
 }
+
 /* ---- Start welcome msg ---- */
 
 #welcome-msg {
@@ -67,7 +68,7 @@ header h1 {
   margin-left: 2rem;
 }
 
-#controls-container {
+#controls-container:not(.hidden) {
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
@@ -402,4 +403,8 @@ td[colspan="2"] {
   html {
     font-size: 6px;
   }
+}
+
+.hidden {
+  display: none;
 }

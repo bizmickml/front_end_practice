@@ -22,38 +22,38 @@
         <p>Enter your name below to get started.</p>
       </section>
 
-      <section hidden id="controls-container">
-        <button id="transaction-show-hide-btn" type="button" onclick="toggleTransactionForm(this)">
-          <span id="add-btn-span" class="btn-span add">Add a Transaction</span>
+      <section id="controls-container" class="hidden">
+        <button id="transaction-form-show-hide-btn" type="button" onclick="formToggle(this)">
+          <span class="btn-span add">Add a Transaction</span>
         </button>
-        <button id="category-form-show-hide-btn" type="button" onclick="toggleCatForm(this)">
-          <span class="btn-span edit">Edit Categories</span>
+        <button id="category-form-show-hide-btn" type="button" onclick="formToggle(this)">
+          <span class="btn-span">Edit Categories</span>
         </button>
-        <button id="vendor-form-show-hide-btn" type="button" onclick="toggleVendorForm(this)">
-          <span>Edit Vendors</span></button>
-        <button id="edit-name-button" type="button" onclick="toggleUserNameForm()">
-          <span>Change/Edit Name</span></button>
-        <button class="btn danger" id="clear-data-btn" type="button" onclick="clearAllData()">
+        <button id="vendor-form-show-hide-btn" type="button" onclick="formToggle(this)">
+          <span class="btn-span">Edit Vendors</span></button>
+        <button id="name-form-show-hide-btn" type="button" onclick="formToggle(this)">
+          <span class="btn-span">Change/Edit Name</span></button>
+        <button id="clear-data-btn" type="button" onclick="clearAllData()" class="btn danger">
           <span class="btn-span">Clear ALL Data</span>
         </button>
       </section>
 
-      <form action="javascript:;" onsubmit="getFormEntries(this)" id="user-name-form" name="user-name-form">
+      <form id="user-name-form" name="user-name-form" action="javascript:;" onsubmit="getFormEntries(this)">
         <fieldset>
-          <h3>User Name</h3>
-          <label>Your Name: <input value="Mike" id="user-name-input" type="text" name="userName" required autocomplete="name"></label>
+          <h3>User Name Form</h3>
+          <label>Your Name: <input id="user-name-input" type="text" name="userName" autocomplete="name" required></label>
           <div class="btn-container">
             <button id="user-name-submit-btn" type="submit">Submit</button>
-            <button hidden id="clear-user-name-btn" type="button" onclick="clearName()">Clear Name</button>
-            <button hidden id="cancel-user-name-edit-btn" type="button" onclick="ifUserToggle()">Cancel</button>
+            <button hidden id="clear-user-name-btn" type="button" onclick="clearUserName()">Clear Name</button>
+            <button hidden id="cancel-user-name-edit-btn" type="button" onclick="formToggle(this)">Cancel</button>
           </div>
         </fieldset>
       </form>
 
-      <form name="category-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden id="category-form">
+      <form id="category-form" name="category-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden>
         <h3 class="form-title">Category Form</h3>
         <fieldset id="category-fieldset">
-          <select id="edit-category-selector">
+          <select id="edit-category-selector" onchange="displaySelectOpts(this)">
             <option value="" selected>-- Choose an option to edit categories --</option>
             <option value="addCategory">Add New Category</option>
             <option value="editCategories">Edit Existing Categories</option>
@@ -61,15 +61,15 @@
           <div id="category-container" name="category-container"></div>
         </fieldset>
         <div class="btn-container">
-          <button class="btn submit-btn" type="submit">Submit Changes</button>
-          <button class="btn cancel-btn" onclick="forceCatToggle()" type="button">Cancel</button>
+          <button id="category-submit-btn" class="btn submit-btn" type="submit">Submit Changes</button>
+          <button id="category-cancel-btn" class="btn cancel-btn" type="button" onclick="formToggle(this)">Cancel</button>
         </div>
       </form>
 
-      <form name="vendor-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden id="vendor-form">
+      <form id="vendor-form" name="vendor-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden>
         <h3 class="form-title">Vendor Form</h3>
         <fieldset id="vendor-fieldset">
-          <select id="edit-vendor-selector">
+          <select id="edit-vendor-selector" onchange="displaySelectOpts(this)">
             <option value="">-- Choose an option to edit vendors or accounts --</option>
             <option value="addVendor">Add New Vendor</option>
             <option value="editVendors">Edit Existing Vendors</option>
@@ -77,28 +77,28 @@
           <div id="vendor-container" name="vendor-container"></div>
         </fieldset>
         <div class="btn-container">
-          <button class="btn submit-btn" type="submit">Submit Changes</button>
-          <button class="btn cancel-btn" onclick="forceVendToggle()" type="button">Cancel</button>
+          <button id="vendor-submit-btn" class="btn submit-btn" type="submit">Submit Changes</button>
+          <button id="vendor-cancel-btn" class="btn cancel-btn" type="button" onclick="formToggle(this)">Cancel</button>
         </div>
       </form>
 
-      <form name="transaction-form" action="javascript:;" hidden onsubmit="getFormEntries(this)" id="transaction-form">
+      <form id="transaction-form" name="transaction-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden>
         <h3 class="form-title">Transaction Form</h3>
         <fieldset id ="add-transaction-container">
           <label for="transaction-date">Transaction Date: </label>
-          <input id="transaction-date" type="date" name="transaction_date" required autocomplete="off">
+          <input id="transaction-date" name="transaction_date" type="date" autocomplete="off" required>
           <label id="transaction-description-container">Description: <input name="transaction_description" type="text"/></label>
           <div id="transaction-amount-container">
             <label for="transaction-amount">Total Transaction Amount: </label>
-            <input id="transaction-amount" type="text" name="transaction_amount" onchange="splitSum()" required autocomplete="off" placeholder="$1,990.05">
+            <input id="transaction-amount" name="transaction_amount" type="text" autocomplete="off" placeholder="$1,990.05" onchange="splitSum()" required>
             <span id="is-deposit-container">
-              <label><input name="isDeposit" value=true type="radio" required />Deposit</label>
-              <label><input name="isDeposit" value=false type="radio" required />Withdrawal</label>
+              <label><input name="isDeposit" type="radio" value=true required />Deposit</label>
+              <label><input name="isDeposit" type="radio" value=false required />Withdrawal</label>
             </span>
           </div>
           <div id="transaction-category-container">
             <label for="transaction-category">Category: </label>
-            <select id="transaction-category" name="transaction_category" required onchange="populateSelects()">
+            <select id="transaction-category" name="transaction_category" onchange="populateSelects()" required>
               <option value="" selected disabled>-- Please choose a category --</option>
             </select>
             <label for="transaction-vendor">Vendor: </label>
@@ -114,12 +114,12 @@
             <label><input name="isBudget" type="radio" value=false required/>No</label>
           </div>
           <div id="transaction-notes-container">
-            <label>Notes: <textarea name="transaction_notes"></textarea></label>
+            <label>Transaction Notes: <textarea name="transaction_notes"></textarea></label>
           </div>
         </fieldset>
         <div class="btn-container">
-          <button class="btn submit-btn" type="submit">Record Transaction</button>
-          <button name="cancel-transaction" class="btn cancel-btn" onclick="pageReset(this)" type="button">Cancel</button>
+          <button id="transaction-submit-btn" type="submit" class="btn submit-btn">Record Transaction</button>
+          <button id="transaction-cancel-btn" type="button" class="btn cancel-btn" onclick="formToggle(this)">Cancel</button>
         </div>
       </form>
     </header>

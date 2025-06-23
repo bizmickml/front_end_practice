@@ -3,6 +3,10 @@ const userNameForm = document.getElementById('user-name-form');
 const clearUserNameBtn = document.getElementById('clear-user-name-btn');
 const cancelUserNameEditBtn = document.getElementById("cancel-user-name-edit-btn");
 const controlsCont = document.getElementById('controls-container');
+const transFormShowHideBtn = document.getElementById("transaction-form-show-hide-btn");
+const catFormShowHideBtn = document.getElementById("category-form-show-hide-btn");
+const vendFormShowHideBtn = document.getElementById("vendor-form-show-hide-btn");
+const nameFormShowHideBtn = document.getElementById("name-form-show-hide-btn");
 const categoryForm = document.getElementById('category-form');
 const vendorForm = document.getElementById('vendor-form');
 const vendorContainer = document.getElementById('vendor-container');
@@ -279,15 +283,13 @@ function clearAllData() {
 }
 
 /** --------  END User Data Handling -------- */
-/** --------  START User Name Handling -------- */
+/** --------  START User Name  -------- */
 
-function clearName() {
+function clearUserName() {
   if(confirm(`Are you sure you want to delete your saved name: ${getUserName()}?`)) {
     localStorage.removeItem("userName")
     window.location.reload()
-  } else {
-    ifUserToggle()
-  }
+  } 
 }
 
 function getUserName() {return(isUser() ? localStorage.getItem("userName") : null)}
@@ -296,9 +298,7 @@ function isUser() {return(localStorage.getItem("userName") ? true : false)}
 
 function setUserName(dataArr) {localStorage.setItem("userName", dataArr[0][1])}
 
-function displayUserName() {isUser() ? document.getElementById('user-name-span').textContent = `${getUserName()}'s` : null}
-
-/** --------  END User Name Handling -------- */
+/** --------  END User Name  -------- */
 /** --------  START Form Data Handling -------- */
 
 function dataExists(value, catVend) {
@@ -554,42 +554,19 @@ function handleFormData(dataArr, formName) {
   }
 }
 
-function pageReset(element) {
-  let form;
-
-  if (element.name === "cancel-transaction" ) {
-    form = element.parentNode.parentNode
-  } else {
-    form = element
-  }
-
-  form.reset()
-
-  if (form.name.includes("category")) {
-    forceCatToggle()
-  } else if (form.name.includes("vendor")) {
-    forceVendToggle()
-  } else if (form.name.includes("transaction")) {
-    forceTransToggle()
-    const delBtns = [...document.getElementsByClassName("btn del-btn")]
-    delBtns.forEach((btn) => {btn.click()})
-  }
-
-  displayUserMsg()
-}
-
 function getFormEntries(form) {
   const newDataArr = Array.from(new FormData(form).entries())
 
   if (newDataArr.length === 0) {
-    pageReset(form)
+    form.reset();
 
   } else {
     if (form.name.includes('transaction') && isSplitTransaction(newDataArr)) {
       if (isSplitBalanced()) {
         handleFormData(newDataArr, form.name)
-        pageReset(form)
+        form.reset();
         displayEntries()
+        displayUserMsg()
 
       } else {
         alert("The sum of the Split Amounts must equal the Total Transaction Amount")
@@ -597,17 +574,15 @@ function getFormEntries(form) {
 
     } else {
       handleFormData(newDataArr, form.name)
-      pageReset(form)
-      populateSelects()
+      form.reset();
       displayEntries()
+      displayUserMsg()
     }
   }
 }
 
 /** --------  END Form Data Handling -------- */
 /** --------  START User-Message Handling -------- */
-
-function delParNode(element) {element.parentNode.remove()}
 
 function dismissUserMsg(element) {
   element.parentNode.hidden = true;
@@ -637,6 +612,10 @@ function displayUserMsg() {
 
 /** --------  END User-Message Handling -------- */
 /** --------  START Display & Page Controls -------- */
+
+function delParNode(element) {element.parentNode.remove()}
+
+function delParParNode(element) {element.parentNode.parentNode.remove()}
 
 function populateSelects() {
   const selectElements = [...document.getElementsByTagName("select")]
@@ -760,7 +739,7 @@ function formatAmountInputs() {
   })
 }
 
-function formatNum(num) {
+function dispFormatNum(num) {
   let array = Array.from(num.toString());
   let int = (array.length > 1 ? array.slice(0, -2) : []); 
   let dec = (array.length > 1 ? array.slice(-2) : [0, ...array]); 
@@ -795,7 +774,7 @@ function splitSum() {
       }
     })
 
-    splitTransMsg.textContent = (remAmount === 0 ? "Split is balanced" : `Split amount remaining: $${formatNum(remAmount)}`);
+    splitTransMsg.textContent = (remAmount === 0 ? "Split is balanced" : `Split amount remaining: $${dispFormatNum(remAmount)}`);
 
   }
 }
@@ -857,154 +836,38 @@ function addAmountListener() {
   })
 }
 
-function forceTransToggle() {
-  document.getElementById('transaction-show-hide-btn').click(); 
-}
-
-function toggleTransactionForm(element) {
-  !categoryForm.hidden && forceCatToggle();
-  !vendorForm.hidden && forceVendToggle();
-  !userNameForm.hidden && toggleUserNameForm();
-  transactionForm.hidden = (transactionForm.hidden ? false : true)
-  element.children[0].textContent = (transactionForm.hidden ? "Add a transaction" : "Hide transaction form")
-
-  if (!transactionForm.hidden) {
-    element.children[0].classList.add("hide")
-    element.children[0].classList.remove("add")
-  } else {
-    element.children[0].classList.add("add")
-    element.children[0].classList.remove("hide")
-  }
-
-  !transactionForm.hidden && populateSelects();
-  addAmountListener()
-}
-
   //  -- END Transaction Form --
-  //  -- START Vendor Form --
 
-function dispMorAddVend(button) {
-  addElementIndex++
-  button.insertAdjacentHTML("beforebegin", `
-    <div>
-      <label>New Vendor Name: <input name="addVendor" placeholder="e.g. Your Favorite Store" required></label>
-      <label for="add-vendor-cat-${addElementIndex}">in Category: </label>
-      <select id="add-vendor-cat-${addElementIndex}" name="addVendor-cat" value="">
-        <option value="" disabled selected>-- Please choose an existing category --</option>
-      </select>
-      <button class="btn del-btn" type="button" onclick="delParNode(this)">X</button>
-    </div>
-  `)
-  populateSelects()
-}
+const displayFormUserData = (type) => {
+  if (type === "cat") {
+    categoryContainer.innerHTML = "";
+    categoryContainer.innerHTML += `<h4>Existing Categories:</h4><ul id="exist-cats"></ul>`;
 
-function displayAddVendors(cont) {
-  const addHTML = `
-    <div>
-      <label>New Vendor Name: <input name="addVendor" placeholder="e.g. Your Favorite Store" required></label>
-      <label for="add-vendor-cat-${addElementIndex}">in Category: </label>
-      <select id="add-vendor-cat-${addElementIndex}" name="addVendor-cat" value="">
-        <option value="" disabled selected>-- Please choose an existing category --</option>
-      </select>
-      <button class="btn del-btn" type="button" onclick="delParNode(this)">X</button>
-    </div>
-  `;
+    getUserData().forEach((dataObj) => {
+      document.getElementById("exist-cats").insertAdjacentHTML("beforeend", `<li>${dataObj.category}</li>`);
+    });
 
-  cont.innerHTML += addHTML + `<button id="add-vendor-btn" type="button" class="btn add-btn" onclick="dispMorAddVend(this)" >Add another vendor</button>`
-}
+  } else if (type === "vend") {
+    vendorContainer.innerHTML = "";
+    vendorContainer.innerHTML += `<h4>Existing Vendors & Accounts:</h4><ul id="exist-vendors"></ul>`;
+    getUserData().forEach((dataObj) => {
+      document.getElementById("exist-vendors").innerHTML += `<ul id="cat-${dataObj.id}">${dataObj.category}</ul>`;
 
-function displayVendors(prop) {
-  // takes a prop of either "show", "add", or "edit"
-  
-  vendorContainer.innerHTML = "";
-  vendorContainer.innerHTML += `<h4>Existing Vendors & Accounts:</h4><ul id="exist-vendors"></ul>`;
-  const vendList = document.getElementById('exist-vendors');
-  const userData = [...getUserData()];
-  
-  userData.forEach((dataObj, catIndex) => {
-    // displays the categories
-
-    let category = dataObj.category
-    let catId = dataObj.id
-    let HTML = `<ul id="exist-cat-${catId}-vendors">${category}</ul>`
-
-    if (prop === "show") {
-      vendList.innerHTML += HTML
-    } else if (prop === "add") {
-      vendList.innerHTML += HTML
-    } 
-
-    dataObj.vendor.forEach((name, vendIndex) => {
-      // displays the vendors
-
-      let listEl = document.getElementById(`exist-cat-${catId}-vendors`)
-      let innerHTML = `<li>${name}</li>`
-      let editHTML = `
-        <li name="vendor-${name}_category-${category}">
-          <label>Existing vendor name: <input name="edit_vendor-${name}" value="${name}"></label>
-          <label for="edit-vendor-${vendIndex}-cat-${catIndex}">Change existing category? </label>
-          <select id="edit-vendor-${vendIndex}-cat-${catIndex}" name="edit_vendor_cat-${category}"><option value="" disabled>-- Please choose an existing category --</option></select>
-          <button class="btn del-btn" type="button" onclick="delVend(this)">X</button>
-        </li>
-      `;
-
-      if (prop === "show") {
-        listEl.innerHTML += innerHTML
-      } else if (prop === "add") {
-        listEl.innerHTML += innerHTML
-      } else if (prop === "edit") {
-        vendList.innerHTML += editHTML
-      } 
+      dataObj.vendor && dataObj.vendor.length > 0 && dataObj.vendor.forEach((name) => {
+        document.getElementById(`cat-${dataObj.id}`).innerHTML += `<li>${name}</li>`;
+      });
     })
-  })
+  } else if (type === "trans") {
 
-  if (prop === "add") {
-    displayAddVendors(vendorContainer)
+
   }
-  
-  populateSelects()
 }
 
-function vendSelectControl() {
-  const selector = document.getElementById('edit-vendor-selector')
-  selector.value="";
-  displayVendors("show")
+const displaySelectOpts = (selectEl) => {
+  displayFormUserData(selectEl.id.includes("category") ? "cat" : "vend")
 
-  selector.addEventListener("change", () => {
-    if (selector.value === "") {
-      displayVendors("show")
-    }
-    if (selector.value === "addVendor") {
-      displayVendors("add")
-    }
-    if (selector.value === "editVendors") {
-      displayVendors("edit")
-    }
-  })
-}
-
-function forceVendToggle() {document.getElementById('vendor-form-show-hide-btn').click()}
-
-function toggleVendorForm(element) {
-  !categoryForm.hidden && forceCatToggle()
-  !transactionForm.hidden && forceTransToggle();
-  !userNameForm.hidden && toggleUserNameForm();
-  vendorForm.hidden = (vendorForm.hidden ? false : true)
-  element.textContent = (vendorForm.hidden ? "Edit Vendors" : "Hide Vendor Form")
-  !vendorForm.hidden && vendSelectControl()
-}
-  //  -- END Vendor Form --
-  //  -- START Category Form --
-
-function displayCats(prop) {
-  // takes a prop of either "show", "add", or "edit"
-
-  categoryContainer.innerHTML = "";
-  categoryContainer.innerHTML += `<h4>Existing Categories:</h4><ul id="exist-cats"></ul>`;
-  const catList = document.getElementById('exist-cats');
-
-  if (prop === "add") {
-    const addHTML = `      
+ if (selectEl.value ==="addCategory") {
+    const addCatHTML= `      
       <div>
         <label>
           New category name: 
@@ -1013,93 +876,138 @@ function displayCats(prop) {
         <button class="btn del-btn" type="button" onclick="delParNode(this)">X</button>
       </div>
     `;
-
-    categoryContainer.insertAdjacentHTML("beforeend", addHTML + `
-      <button class="btn add-btn" id="add-cat-btn" type="button">Add another category</button>`)
-
+    categoryContainer.insertAdjacentHTML("beforeend", addCatHTML + `
+      <button class="btn add-btn" id="add-cat-btn" type="button">Add Category</button>
+    `);
     document.getElementById('add-cat-btn').addEventListener("click", (e) => {
-      e.target.insertAdjacentHTML('beforebegin', addHTML)
-    })    
+      e.target.insertAdjacentHTML('beforebegin', addCatHTML);
+    });
+    
+  } else if (selectEl.value ==="editCategories") {
+    document.getElementById("exist-cats").innerHTML = ""
+
+    getUserData().forEach((dataObj) => {
+      document.getElementById("exist-cats").innerHTML += `
+        <li>
+          <label>Edit Category [${dataObj.category}]: 
+            <input name="edit_cat-${dataObj.category}" value="${dataObj.category}" required>
+          </label>
+          <button class="btn del-btn" type="button" onclick="delCat(this)">X</button>
+        </li>
+      `;
+    })
+  } else if (selectEl.value ==="addVendor") {
+    const addVendorHTML = `
+      <div>
+        <label>New Vendor Name: <input name="addVendor" placeholder="e.g. Your Favorite Store" required></label>
+        <label">in Category: 
+        <select name="addVendor-cat" value="">
+          <option value="" disabled selected>-- Please choose an existing category --</option>
+        </select></label>
+        <button class="btn del-btn" type="button" onclick="delParParNode(this)">X</button>
+      </div>
+    `;
+    vendorContainer.innerHTML += addVendorHTML + `
+      <button id="add-vendor-btn" type="button" class="btn add-btn">Add Vendor</button>
+    `;
+    populateSelects()
+
+    document.getElementById("add-vendor-btn").addEventListener("click", (e) => {
+      e.target.insertAdjacentHTML("beforebegin", addVendorHTML)
+    })
+
+  } else if (selectEl.value ==="editVendors") {
+    const vendList = document.getElementById("exist-vendors");
+    vendList.innerHTML = "";
+
+    getUserData().forEach((dataObj, catIndex) => {
+      dataObj.vendor.forEach((name, vendIndex) => {
+        vendList.innerHTML += `
+          <li>
+            <label>Existing vendor name: <input name="edit_vendor-${name}" value="${name}"></label>
+            <label>Change existing category? 
+              <select name="edit_vendor_cat-${dataObj.category}">
+                <option value="" disabled>-- Please choose an existing category --</option>
+              </select>
+            </label>
+            <button class="btn del-btn" type="button" onclick="delVend(this)">X</button>
+          </li>
+        `;
+      })
+    })
+
+    populateSelects()
+  }
+}
+
+const formToggle = (btn) => {
+  const id = btn.id
+
+  if (id.includes("name")) {
+    cancelUserNameEditBtn.hidden = false;
+    clearUserNameBtn.hidden = false;
+    userNameForm.hidden = (userNameForm.hidden ? false : true);
+  } else if (!id.includes("name")) {
+    cancelUserNameEditBtn.hidden = true;
+    clearUserNameBtn.hidden = true;
+    userNameForm.hidden = true;
+  }
+  
+  if (id.includes("category")) {
+    categoryForm.hidden = (categoryForm.hidden ? false : true)
+    displayFormUserData("cat")
+
+  } else if (!id.includes("category")) {
+    categoryForm.hidden = true;
+    categoryContainer.innerHTML = "";
+  }
+  
+  if (id.includes("vendor")) {
+    vendorForm.hidden = (vendorForm.hidden ? false : true)
+    displayFormUserData("vend")
+
+  } else if (!id.includes("vendor")) {
+    vendorForm.hidden = true;
+    vendorContainer.innerHTML = "";
+  }
+  
+  if (id.includes("transaction")) {
+    transactionForm.hidden = (transactionForm.hidden ? false : true);
+    [...document.getElementsByClassName("del-btn")].forEach((el) => {el.click()});
+    document.getElementById("transaction-category").value = ""
+    populateSelects();
+    addAmountListener();
+
+  } else if (!id.includes("transaction"))  {
+    transactionForm.hidden = true;
   }
 
-  getUserData().forEach((dataObj) => {
-    const editHTML = `
-      <li>
-        <label>Edit Category [${dataObj.category}]: 
-          <input name="edit_cat-${dataObj.category}" value="${dataObj.category}" required>
-        </label>
-        <button class="btn del-btn" type="button" onclick="delCat(this)">X</button>
-      </li>
-    `;
-    const showHTML = `<li>${dataObj.category}</li>`
+  nameFormShowHideBtn.children[0].textContent = (userNameForm.hidden ? "Change/Edit User Name" : "Hide User Name Form");
+  catFormShowHideBtn.children[0].textContent = (categoryForm.hidden ? "Edit Categories" : "Hide Category Form");
+  vendFormShowHideBtn.children[0].textContent = (vendorForm.hidden ? "Edit Vendors" : "Hide Vendor Form");
+  transFormShowHideBtn.children[0].textContent = (transactionForm.hidden ? "Add a transaction" : "Hide transaction form");
 
-    if (prop === "show") {
-      catList.insertAdjacentHTML("beforeend", showHTML)
-    } else if (prop === "edit") {
-      catList.insertAdjacentHTML("beforeend", editHTML)
-    } else if (prop === "add") {
-      catList.insertAdjacentHTML("beforeend", showHTML)
-    }
-  })  
+  if (!transactionForm.hidden) {
+    transFormShowHideBtn.children[0].classList.add("hide")
+    transFormShowHideBtn.children[0].classList.remove("add")
+  } else {
+    transFormShowHideBtn.children[0].classList.add("add")
+    transFormShowHideBtn.children[0].classList.remove("hide")
+  }
+
 }
-
-function catSelectControl() {
-  const selector = document.getElementById('edit-category-selector')
-  selector.value = "";
-  displayCats("show");
-
-  selector.addEventListener("change", () => {
-    if (selector.value === "") {
-      displayCats("show")
-    }
-    if (selector.value === "addCategory") {
-      displayCats("add")
-    }
-    if (selector.value === "editCategories") {
-      displayCats("edit")
-    }
-  })
-}
-
-function forceCatToggle() {document.getElementById('category-form-show-hide-btn').click()}
-
-function toggleCatForm(element) {
-  !vendorForm.hidden && forceVendToggle()
-  !userNameForm.hidden && toggleUserNameForm();
-  !transactionForm.hidden && forceTransToggle();
-  categoryForm.hidden = (categoryForm.hidden ? false : true)
-  element.textContent = (categoryForm.hidden ? "Edit Categories" : "Hide Category Form")
-  !categoryForm.hidden && catSelectControl()
-}
-  //  -- END Category Form --
-  //  -- START User Name Form --
-
-function toggleUserNameForm() {
-  cancelUserNameEditBtn.hidden = false;
-  clearUserNameBtn.hidden = false;
-  !categoryForm.hidden && forceCatToggle();
-  !vendorForm.hidden && forceVendToggle();
-  !transactionForm.hidden && forceTransToggle();
-
-  ifUserToggle();
-}
-
-function ifUserToggle() {
-  welcomeMsg.hidden = (isUser() ? true : false);
-  userNameForm.hidden = !userNameForm.hidden;
-  controlsCont.hidden = !controlsCont.hidden;
-}
-  //  -- END User Name Form --
 
 window.onload = () => {
-  if (!isUserData()) {localStorage.setItem("userData", JSON.stringify(sortUserData(testUserData)))}
 
   if (isUser()) {
-    displayUserName()
-    ifUserToggle()
-  } 
+    document.getElementById('user-name-span').textContent = `${getUserName()}'s`;  
+    welcomeMsg.hidden = true;
+    userNameForm.hidden = true;
+    controlsCont.classList.remove("hidden");
+    !isUserData() && localStorage.setItem("userData", JSON.stringify(sortUserData(testUserData)));
+  }
 
-  if (isUserEntry()) {displayEntries()}
+  if (isUserEntry()) {displayEntries()};
 }
 
 /** --------  END Display & Page Controls -------- */
