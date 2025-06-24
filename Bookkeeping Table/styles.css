@@ -294,7 +294,7 @@ table {
 }
 
 th {
-  padding-bottom: 1rem;
+  padding: 0 1rem 1rem;
   text-align: left;
   font-size: 2.5rem;
   border-bottom: 3px solid var(--black)
@@ -303,7 +303,7 @@ th {
 td {
   text-align: left;
   vertical-align: middle;
-  padding: .25rem;
+  padding: .25rem 1rem;
 }
 
 tbody:not(:last-of-type) {
@@ -345,6 +345,18 @@ td[colspan="2"] {
 
 .currency:not(.deposit)::after {
   content: ")"
+}
+
+td:has(span.split-category) {
+  border-bottom: 1px solid var(--black)
+}
+
+td:has(span.balance) {
+  text-align: right;
+}
+
+.balance.negative {
+  color: var(--red)
 }
 
 /* ---- End Table ---- */

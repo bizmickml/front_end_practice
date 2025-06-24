@@ -38,19 +38,19 @@
         </button>
       </section>
 
-      <form id="user-name-form" name="user-name-form" action="javascript:;" onsubmit="getFormEntries(this)">
+      <form id="user-name-form" name="user-name-form" action="javascript:;" onsubmit="getFormData(this)">
         <fieldset>
           <h3>User Name Form</h3>
           <label>Your Name: <input id="user-name-input" type="text" name="userName" autocomplete="name" required></label>
           <div class="btn-container">
             <button id="user-name-submit-btn" type="submit">Submit</button>
             <button hidden id="clear-user-name-btn" type="button" onclick="clearUserName()">Clear Name</button>
-            <button hidden id="cancel-user-name-edit-btn" type="button" onclick="formToggle(this)">Cancel</button>
+            <button hidden id="cancel-user-name-edit-btn" class="btn cancel-btn" type="button" onclick="formToggle(this)">Cancel</button>
           </div>
         </fieldset>
       </form>
 
-      <form id="category-form" name="category-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden>
+      <form id="category-form" name="category-form" action="javascript:;" onsubmit="getFormData(this)" hidden>
         <h3 class="form-title">Category Form</h3>
         <fieldset id="category-fieldset">
           <select id="edit-category-selector" onchange="displaySelectOpts(this)">
@@ -66,7 +66,7 @@
         </div>
       </form>
 
-      <form id="vendor-form" name="vendor-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden>
+      <form id="vendor-form" name="vendor-form" action="javascript:;" onsubmit="getFormData(this)" hidden>
         <h3 class="form-title">Vendor Form</h3>
         <fieldset id="vendor-fieldset">
           <select id="edit-vendor-selector" onchange="displaySelectOpts(this)">
@@ -82,7 +82,7 @@
         </div>
       </form>
 
-      <form id="transaction-form" name="transaction-form" action="javascript:;" onsubmit="getFormEntries(this)" hidden>
+      <form id="transaction-form" name="transaction-form" action="javascript:;" onsubmit="getFormData(this)" hidden>
         <h3 class="form-title">Transaction Form</h3>
         <fieldset id ="add-transaction-container">
           <label for="transaction-date">Transaction Date: </label>

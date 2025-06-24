@@ -1,6 +1,6 @@
 # Bookeeping Table
 ### Overview
-The app is designed as a simple tool to track financial transactions to create a budget.  User's can use the app to categorize and track financial transactions.  The app will automatically produce a budget based on spending data entered.  
+The app is designed as a simple tool to track financial transactions to create a budget.  User's can use the app to categorize and track financial transactions.  The app will automatically produce a monthly budget based on spending data entered.  
 > 5/12/2025 - There is no backend storage component to this app yet.  Data entered is stored on the user's machine so clearing the cache will result in losing all data entered.  
 
 ### User stories:
