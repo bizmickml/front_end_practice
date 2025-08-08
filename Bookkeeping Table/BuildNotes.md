@@ -6,3 +6,4 @@
 - ~~entered new transaction and table did not update (add functionality)~~
 ### 6/24/2025
 - left off at creating monthly budget amounts based on user entries
+- ~~add another split adds split above existing split - should be below.~~

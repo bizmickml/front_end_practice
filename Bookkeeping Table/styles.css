@@ -31,6 +31,9 @@ html {
 body {
   background-size: 100vw 100vh;
   background-image: radial-gradient(180% 110% at top right, var(--turqu) 40%, var(--blue));
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
 /* ---- Start welcome msg ---- */
@@ -300,6 +303,10 @@ th {
   border-bottom: 3px solid var(--black)
 }
 
+#monthly-average-header, #notes-header {
+  font-size: 2rem;
+}
+
 td {
   text-align: left;
   vertical-align: middle;
@@ -324,11 +331,7 @@ tbody tr:last-of-type td {
 }
 
 .split-row td {
-  padding-left: 1rem;
-}
-
-td[colspan="2"] {
-  text-align: center;
+  padding-left: 2rem;
 }
 
 .currency {
@@ -347,16 +350,20 @@ td[colspan="2"] {
   content: ")"
 }
 
-td:has(span.split-category) {
+.split-category {
   border-bottom: 1px solid var(--black)
 }
 
-td:has(span.balance) {
+.transaction-balance {
   text-align: right;
 }
 
-.balance.negative {
+.transaction-balance.negative {
   color: var(--red)
+}
+
+.transaction-notes {
+  font-size: 1.5rem;
 }
 
 /* ---- End Table ---- */
@@ -393,7 +400,7 @@ td:has(span.balance) {
 /* ---- End User Message ---- */
 
 
-@media only screen and (width < 1075px) {
+@media only screen and (max-width < 1075px) {
   html {
     font-size: 9px;
   }

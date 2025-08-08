@@ -14,6 +14,18 @@ const vendorContainer = document.getElementById('vendor-container');
 const categoryContainer = document.getElementById('category-container');
 const transactionForm = document.getElementById('transaction-form');
 const transactionContainer = document.getElementById('add-transaction-container');
+const transCatContainerHTML = `      
+  <div id="transaction-category-container">
+    <label for="transaction-category">Category: </label>
+    <select id="transaction-category" name="transaction_category" onchange="populateSelects()" required>
+      <option value="" selected disabled>-- Please choose a category --</option>
+    </select>
+    <label for="transaction-vendor">Vendor: </label>
+    <select id="transaction-vendor" name="transaction_vendor" required>
+      <option value="" selected disabled>-- Please choose a vendor or account --</option>
+    </select>
+  </div>
+`;
 const splitTransMsg = document.getElementById("split-btn-message");
 const spreadsheetCont = document.getElementById('spreadsheet-container');
 
@@ -60,8 +72,8 @@ const testUserEntries = [
     "transaction_description": "test split transaction",
     "transaction_amount": "$885",
     "isDeposit": "false",
-    "transaction_category": "Utilities",
-    "transaction_vendor": "Electric co.",
+    "transaction_split_category_0": "Utilities",
+    "transaction_split_vendor_0": "Electric co.",
     "transaction_split_amount_0": "$683.54",
     "transaction_split_category_1": "Utilities",
     "transaction_split_vendor_1": "Cell Phone Provider",
@@ -80,17 +92,64 @@ const testUserEntries = [
     "transaction_notes": "test negative balance"
   },
 ]
-const headings = ["Date", "Description", "Amount", "Category", "Vendor", "Balance", "Notes", "Category Budget"]
+console.log(Object.values(testUserEntries[0])[2])
+const headings = ["Date", "Description", "Amount", "Category", "Vendor", "Balance", "Notes", "Monthly Average"]
 let userMsg = []
 let addElementIndex = 0;
 
 /** --------  START User Entry Handling -------- */
 
-function setMonthlyBudgetAmounts(arr) {
-  for (let i = arr.length; i < arr.length; i++) {
-    
-  }
+function calcMonthlyAverages(arr) {
+  /**
+   *  iterate through the user entries 
+   *  add up total amounts for each category
+   *  display an average amount
+   */
+  const catAvg = []
+
+  arr.forEach((entryObj) => {
+    let isSplit = false;
+    let entryAvg = {category: "", total: 0, entryCount: 0, avg: 0};
+
+    for (const [key, _value] of Object.entries(entryObj)) {
+      if (key.includes("split")) {
+        isSplit = true;
+      }
+    }
+
+    let index = 0;
+    for (const [key, value] of Object.entries(entryObj)) {
+      
+      if (isSplit && key.includes("split_category")) {
+        entryAvg.category = value;
+        entryAvg.total += Math.round(stringNumToInt(Object.values(entryObj)[index + 2])) / 100;
+        entryAvg.entryCount++;
+
+      } else if (!isSplit && key.includes("amount")) {
+        entryAvg.total += Math.round(value) / 100;
+        entryAvg.category = entryObj.transaction_category;
+        entryAvg.entryCount++;
+      }
+
+      if (catAvg.length > 0) {
+        catAvg.forEach((obj) => {
+          if (obj.category === entryAvg.category) {
+            obj.entryCount++;
+            obj.total += entryAvg.total;
+            obj.avg = ((Math.round(obj.total * 100)) / obj.entryCount) / 100;
+          }  
+
+        })
+      } else {
+        catAvg.push(entryAvg)
+      }
+
+      index++
+    }
+  })
+  console.log(catAvg)
 }
+calcMonthlyAverages(testUserEntries)
 
 function sortUserEntriesByDate(arr) {
   for (let i = 0; i < arr.length; i ++) {
@@ -112,7 +171,7 @@ function displayEntries() {
     spreadsheetCont.innerHTML += `<thead id="table-head"><tr id="table-head-row"></tr></thead>`
 
     headings.forEach((val) => {
-      document.getElementById('table-head-row').innerHTML += `<th id="${val.toLowerCase().replace(idRegEx, "-")}">${val}</th>`
+      document.getElementById('table-head-row').innerHTML += `<th id="${val.toLowerCase().replace(idRegEx, "-")}-header">${val}</th>`
     })
   }
 
@@ -122,7 +181,7 @@ function displayEntries() {
   let entryBal;
 
   sortedUserEntries.forEach((entryObj, index) => {
-    spreadsheetCont.innerHTML += `<tbody id="entry-${index}"><tr></tr></tbody>`;
+    spreadsheetCont.innerHTML += `<tbody id="entry-${index}"><tr class="entry-row"></tr></tbody>`;
     const container = document.getElementById(`entry-${index}`);
     const row = container.children[0];
     const splitRows = container.children;
@@ -188,53 +247,52 @@ function displayEntries() {
       if (!(isSplit)) {
         if (!(key.includes("isDeposit")) && !(key.includes("isBudget")) && !key.includes("notes")) {
         row.innerHTML += `
-          <td>
-            <span id="${value.replace(idRegEx, "-")}-${index}" class="table-data ${value.includes("$") ? "currency" : ""}">${value}</span>
-          </td>
+            <td id="${key.replace(idRegEx, "-").slice(0, key.replace(idRegEx, "-").indexOf("-"))}-${index}-${key.replace(idRegEx, "-").slice(key.replace(idRegEx, "-").indexOf("-") + 1)}">
+              ${value.includes("$") ? `<span class="${key.replace(idRegEx, "-")} currency">` : ""}${value}${value.includes("$") ? `</span>` : ""}
+            </td>
         `;
         } else if (key.includes("notes")) {
 
           row.innerHTML += `
-            <td>
-              <span class="balance ${entryBal > 0 ? "positive" : "negative"}">$${dispFormatNum(entryBal)}</span>
-            </td>
-            <td>
-              <span>${value}</span>
-            </td>
+              <td id="transaction-${index}-balance" class="transaction-balance ${entryBal > 0 ? "positive" : "negative"}">${entryBal > 0 ? "$" : ""}${dispFormatNum(entryBal)}</td>
+              <td id="transaction-${index}-notes" class="${key.replace(idRegEx, "-")}">${value}</td>
           `;
         }
         
       } else if (isSplit) {
         if (key.includes("date") || key.includes("description") || key.includes("amount") && !(key.includes("split"))) {
           row.innerHTML += `
-            <td>
-              <span id="${value.replace(idRegEx, "-")}-${index}" class="table-data ${value.includes("$") ? "currency" : ""}">${value}</span>
-            </td>
+              <td id="${key.replace(idRegEx, "-").slice(0, key.replace(idRegEx, "-").indexOf("-"))}-${index}-${key.replace(idRegEx, "-").slice(key.replace(idRegEx, "-").indexOf("-") + 1)}" class="table-data ${value.includes("$") ? "currency" : ""}">${value}</td>
           `;
         }
       }
     }
 
       //Display split data
-    if (isSplit) {row.innerHTML += `<td colspan="2"><span class="split-category"></span></td>`}
+    if (isSplit) {row.innerHTML += `<td id="transaction-${index}-split-category-placeholder" colspan="2" class="split-category"></td>`}
 
     for (let i = 0; i < splitRows.length; i++) {
-      if (i > 0) {splitRows[i].innerHTML += `<td colspan="2" class="placeholder"></td>`}
+      if (i > 0) {splitRows[i].innerHTML += `<td id="transaction-${index}-placeholder-${i}" colspan="2" class="placeholder"></td>`}
     }
 
-    splitAmounts.forEach((val, index) => {
-      splitRows[index + 1].innerHTML += `<td><span class="split-value currency">${val}</span></td>`
+    splitAmounts.forEach((val, i) => {
+      splitRows[i + 1].innerHTML += `<td id="transaction-${index}-split-${i}-amount"><span class="split-value currency">${val}</span></td>`
     })
 
-    splitCats.forEach((val, index) => {
-      splitRows[index + 1].innerHTML += `<td><span class="split-value category">${val}</span></td>`
+    splitCats.forEach((val, i) => {
+      splitRows[i + 1].innerHTML += `<td id="transaction-${index}-split-${i}-category" class="split-value category">${val}</td>`
     })
 
-    splitVends.forEach((val, index) => {
-      splitRows[index + 1].innerHTML += `<td><span class="split-value vendor">${val}</span></td>`
+    splitVends.forEach((val, i) => {
+      splitRows[i + 1].innerHTML += `<td id="transaction-${index}-split-${i}-vendor" class="split-value vendor">${val}</td>`
     })
 
-    if (isSplit) {row.innerHTML += `<td><span class="balance ${entryBal > 0 ? "positive" : "negative"}">$${dispFormatNum(entryBal)}</span></td><td><span>${splitNote}</span></td>`};
+    if (isSplit) {
+      row.innerHTML += `
+        <td id="transaction-${index}-balance" class="transaction-balance ${entryBal > 0 ? "positive" : "negative"}">${entryBal > 0 ? "$" : ""}${dispFormatNum(entryBal)}</td>
+        <td id="transaction-${index}-notes" class="transaction-notes">${splitNote}</td>
+      `
+    };
 
       //Format Deposits
     if (isDeposit) {
@@ -743,9 +801,12 @@ function splitSum() {
 
 function delSplit(el) {
   if (el.parentNode.parentNode.children.length === 10) {
+    const splitCatCont0 = document.getElementById("split-category-container-0");
     document.getElementById('split-transaction-btn').textContent = "Add a split"
     splitTransMsg.textContent = "Split transaction between multiple categories?"
-    document.getElementById("first-split-amount-container").remove()
+    splitCatCont0.insertAdjacentHTML("beforebegin", transCatContainerHTML);
+    splitCatCont0.remove()
+    populateSelects()
   }
   
   delParNode(el)
@@ -756,15 +817,26 @@ function addTransSplit(el) {
 
   if (el.parentNode.children[4].children.length < 5) {
 
-    el.parentNode.children[4].insertAdjacentHTML("beforeend", `      
-      <label id="first-split-amount-container">Split Amount: 
-        <input type="text" name="transaction_split_amount_${addElementIndex - 1}" required autocomplete="off" onchange="splitSum()" placeholder="$45.97"/>
-      </label>
+    splitTransMsg.insertAdjacentHTML("beforebegin", `
+      <div id="split-category-container-0">
+        <label for="transaction-split-category-0">Category: </label>
+        <select id="transaction-split-category-0" name="transaction_split_category_0" required onchange="populateSelects()">
+          <option value="" selected disabled>-- Please choose a category --</option>
+        </select>
+        <label for="transaction-split-vendor-0">Vendor: </label>
+        <select id="transaction-split-vendor-0" name="transaction_split_vendor_0" required>
+          <option value="" selected disabled>-- Please choose a vendor or account --</option>
+        </select>
+        <label>Split Amount: 
+          <input type="text" name="transaction_split_amount_0" required autocomplete="off" onchange="splitSum()" placeholder="$45.97" />
+        </label>
+      </div>
     `)
 
+    document.getElementById("transaction-category-container").remove();
   }
-
-  el.parentNode.children[4].insertAdjacentHTML("afterend", `
+  
+  splitTransMsg.insertAdjacentHTML("beforebegin", `
     <div id="split-category-container-${addElementIndex}">
       <label for="transaction-split-category-${addElementIndex}">Category: </label>
       <select id="transaction-split-category-${addElementIndex}" name="transaction_split_category_${addElementIndex}" required onchange="populateSelects()">
@@ -1048,7 +1120,7 @@ window.onload = () => {
     !isUserData() && localStorage.setItem("userData", JSON.stringify(sortUserData(testUserData)));
   }
 
-  if (isUserEntry()) {displayEntries()};
+  displayEntries()
 }
 
 /** --------  END Display & Page Controls -------- */
